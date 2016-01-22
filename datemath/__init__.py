@@ -158,7 +158,7 @@ def evaluate(expression, now, roundUp=False, timeZone='UTC', useTimeZoneForRound
                 num = m.group(1)
                 val = val * 10 + int(num, 10)
                 i = i + len(num)
-            except Exception, e:
+            except Exception as e:
                 raise DateMathException("Invalid numerical datematch: What I got was - match: {0}, expression: {1}, error: {2}".format(expression[i+1:], expression, e)) 
     
             if char == '+':
