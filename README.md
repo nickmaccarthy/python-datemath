@@ -67,6 +67,19 @@ This can be converted using arrow's ```.format()``` method
 <Arrow [2016-01-01T02:03:00+00:00]>
 >>>
 ```
+You can even return back datetime objects by passing along the 'datetime' type
+```python
+>>> dm.parse('now', type='datetime')
+datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
+>>>
+>>> dm.parse('now+2d-1m', type='datetime')
+datetime.datetime(2016, 1, 24, 22, 57, 45, 394470, tzinfo=tzutc())
+```
+Want an Epoch/Unix Timestamp back instead? Pass along 'timestamp' type
+```python
+>>> dm.parse('now+2d-1m', type='timestamp')
+1453676321
+```
 
 # Test
 ```python tests.py```
