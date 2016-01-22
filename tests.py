@@ -1,4 +1,4 @@
-import unittest
+import unittest2 as unittest
 import arrow
 import datemath
 
@@ -65,7 +65,6 @@ class TestDM(unittest.TestCase):
         self.assertEqual(datemath.parse('+1m+5h').format(iso8601), arrow.utcnow().replace(minutes=+1, hours=+5).format(iso8601))
         self.assertEqual(datemath.parse('/d+1m+5h').format(iso8601), arrow.utcnow().floor('day').replace(minutes=+1, hours=+5).format(iso8601))
         self.assertEqual(datemath.parse('+1h').format(iso8601), arrow.utcnow().replace(hours=+1).format(iso8601))
-
         self.assertEqual(datemath.parse('+1w').format(iso8601), arrow.utcnow().replace(weeks=+1).format(iso8601))
         self.assertEqual(datemath.parse('+1w+12d').format(iso8601), arrow.utcnow().replace(weeks=+1, days=+12).format(iso8601))
         self.assertEqual(datemath.parse('+2y').format(iso8601), arrow.utcnow().replace(years=+2).format(iso8601))
@@ -77,7 +76,13 @@ class TestDM(unittest.TestCase):
         self.assertEqual(datemath.parse('-3w-2d-22h-36s').format(iso8601), arrow.utcnow().replace(weeks=-3, days=-2, hours=-22, seconds=-36).format(iso8601))
         self.assertEqual(datemath.parse('-6y-3w-2d-22h-36s').format(iso8601), arrow.utcnow().replace(years=-6, weeks=-3, days=-2, hours=-22, seconds=-36).format(iso8601))
 
-        
+       
+        import datetime
+        delta = datetime.timedelta(seconds=1) 
+        # datetime objects
+        self.assertAlmostEqual(datemath.parse('now').datetime, arrow.utcnow().datetime, delta=delta)
+        self.assertAlmostEqual(datemath.parse('now+1d').datetime, arrow.utcnow().replace(days=+1).datetime, delta=delta)
+        self.assertAlmostEqual(datemath.parse('/w').datetime, arrow.utcnow().floor('week').datetime, delta=delta)
 
 
 if __name__ == "__main__":
