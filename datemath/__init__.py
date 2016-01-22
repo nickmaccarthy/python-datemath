@@ -124,7 +124,8 @@ def parse(expression, now=None, tz='UTC', type=None):
 
 
 def parseTime(timestamp, tz='UTC'):
-    if timestamp and len(timestamp) >= 4 and (timestamp >= 0 or timestamp < 0): 
+    #if timestamp and len(timestamp) >= 4 and (timestamp >= 0 or timestamp < 0): 
+    if timestamp and len(timestamp) >= 4: 
         return arrow.get(timestamp)
         
     
