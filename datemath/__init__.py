@@ -76,7 +76,7 @@ def parse(expression, now=None, roundUp=False, tz='UTC', useTimeZoneForRounding=
     if now is None:
         now = arrow.utcnow()
 
-    if debug: print("Orig Expression: %s " % expression)
+    if debug: print("Orig Expression: {0}".format(expression))
     math = ''
     time = ''
 
@@ -91,7 +91,7 @@ def parse(expression, now=None, roundUp=False, tz='UTC', useTimeZoneForRounding=
         ''' parse our standard "now+1d" kind of queries '''
         math = expression[3:]
         time = now
-        if debug: print 'now expression: %s' % now
+        if debug: print('now expression: {0}'.format(now))
     else:
         ''' parse out datemath with date, ex "2015-10-20||+1d"  '''
         if '||' in expression:
@@ -120,7 +120,7 @@ def parseTime(timestamp, timeZone):
     
 def roundDate(now, unit, roundUp, timeZone, useTimeZoneForRounding):
     now = now.floor(unit)
-    if debug: print("roundDate Now: %s" % now)
+    if debug: print("roundDate Now: {0}".format(now))
     return now
 
 def calculate(now, offsetval, unit):
@@ -131,8 +131,8 @@ def calculate(now, offsetval, unit):
         raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2}'.format(now,offsetval,unit))
 
 def evaluate(expression, now, roundUp=False, timeZone='UTC', useTimeZoneForRounding=True):
-    if debug: print('Expression: ' + expression)
-    if debug: print('Now: %s' % now)
+    if debug: print('Expression: {0}'.format(expression))
+    if debug: print('Now: {0}'.format(now))
     val = 0
     for i, c in enumerate(expression):
         char = expression[i]
@@ -170,14 +170,14 @@ def evaluate(expression, now, roundUp=False, timeZone='UTC', useTimeZoneForRound
             now = calculate(now, val, unitMap(char))
         
         i = i+1
-    if debug: print("Fin: %s" % now)
+    if debug: print("Fin: {0}".format(now))
     if debug: print('\n\n')
     return now
 
 
 
 if __name__ == "__main__":
-    if debug: print('NOW: %s' % arrow.utcnow())
+    if debug: print('NOW: {0}'.format(arrow.utcnow()))
     if debug: print('\n\n')
     parse('now-1h')
     parse('now+12h')
