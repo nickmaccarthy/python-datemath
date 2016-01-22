@@ -72,11 +72,12 @@ def unitMap(c):
 def as_datetime(expression, now, tz='UTC'):
     return parse(expression, now, tz)
 
-def parse(expression, now=None, roundUp=False, tz='UTC', useTimeZoneForRounding=True):
+def parse(expression, now=None, tz='UTC', type=None):
     if now is None:
         now = arrow.utcnow()
 
     if debug: print("Orig Expression: {0}".format(expression))
+
     math = ''
     time = ''
 
@@ -86,7 +87,10 @@ def parse(expression, now=None, roundUp=False, tz='UTC', useTimeZoneForRounding=
 
     if expression == 'now':
         if debug: print("Now, no dm: {0}".format(now))
-        return now
+        if type:
+            return getattr(now, type)
+        else:
+            return now
     elif expression.startswith('now'):
         ''' parse our standard "now+1d" kind of queries '''
         math = expression[3:]
@@ -109,16 +113,22 @@ def parse(expression, now=None, roundUp=False, tz='UTC', useTimeZoneForRounding=
             time = parseTime(expression, tz)
 
     if not math or math == '':
-        return time
+        rettime = time
 
-    return evaluate(math, time, roundUp, tz, useTimeZoneForRounding)
+    rettime = evaluate(math, time, tz)
+    if type:
+        return getattr(rettime, type)
+    else:
+        return rettime
+        
 
-def parseTime(timestamp, timeZone):
+
+def parseTime(timestamp, tz='UTC'):
     if timestamp and len(timestamp) >= 4 and (timestamp >= 0 or timestamp < 0): 
         return arrow.get(timestamp)
         
     
-def roundDate(now, unit, roundUp, timeZone, useTimeZoneForRounding):
+def roundDate(now, unit, tz='UTC'):
     now = now.floor(unit)
     if debug: print("roundDate Now: {0}".format(now))
     return now
@@ -130,7 +140,7 @@ def calculate(now, offsetval, unit):
     except:
         raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2}'.format(now,offsetval,unit))
 
-def evaluate(expression, now, roundUp=False, timeZone='UTC', useTimeZoneForRounding=True):
+def evaluate(expression, now, timeZone='UTC'):
     if debug: print('Expression: {0}'.format(expression))
     if debug: print('Now: {0}'.format(now))
     val = 0
@@ -145,7 +155,7 @@ def evaluate(expression, now, roundUp=False, timeZone='UTC', useTimeZoneForRound
             next = str(expression[i+1])
 
             roundUp = True            
-            now = roundDate(now, unitMap(next).rstrip('s'), roundUp, timeZone, useTimeZoneForRounding)
+            now = roundDate(now, unitMap(next).rstrip('s'), timeZone)
 
         elif char == '+' or char == '-':
             if i >= len(expression):
@@ -197,3 +207,5 @@ if __name__ == "__main__":
     parse('2014-11-18||+1M-1m')
     print(parse('now/d+7d+12h'))
     print(parse('now', tz='US/Pacific'))
+    print(type(parse('now-10m', type='datetime')))
+    print(type(parse('now', type='datetime')))
