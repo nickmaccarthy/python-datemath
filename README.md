@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/nickmaccarthy/python-datemath)](https://travis-ci.org/nickmaccarthy/python-datemath)
+
+
 # Python datemath-parser
 A date match parser to be compatiable with the elasticsearch date math format
 
