@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nickmaccarthy/python-datemath)](https://travis-ci.org/nickmaccarthy/python-datemath)
+[![Build Status](https://travis-ci.org/nickmaccarthy/python-datemath.svg?branch=master)](https://travis-ci.org/nickmaccarthy/python-datemath.svg?branch=master)
 
 
 # Python datemath-parser
