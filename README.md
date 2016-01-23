@@ -1,11 +1,14 @@
 [![Build Status](https://travis-ci.org/nickmaccarthy/python-datemath.svg?branch=master)](https://travis-ci.org/nickmaccarthy/python-datemath.svg?branch=master)
 
 
-# Python datemath-parser
+# What?
 A date match parser to be compatiable with the elasticsearch date math format
 
+# Why?
+Working with date objects in python has always been interesting.  Having a background in php, I have been looking for quite some time ( no pun intended ) for a way to do date time interpolation similar to php's ```strtotime()``` function.  While the arrow module comes close, I needed something that could turn math type strings into datetime objects for use in tattle.io and other projects I use in elasticsearch.  I have found even more uses for it, and hopefully you will to.
+
 # What is date math ?
-Similar to the SOLR date math format, elasticsearch has its own built in format for short hand date math.
+Similar to the SOLR date math format, elasticsearch has its own built in format for short hand date math.  This module aim to provide that coverage in python.
 
 Documentation from elasticsearch:
 http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-date-format.html#date-math
@@ -51,8 +54,8 @@ now/d+7d+12h                2016-01-08T12:00:00+00:00
 ```
 
 # Usage
-Returns an arrow date object representing your timestamp.  
-This can be converted using arrow's ```.format()``` method
+By default datemath return an arrow date object representing your timestamp.  
+
 ```python
 >>> import datemath as dm
 >>>
@@ -70,7 +73,25 @@ This can be converted using arrow's ```.format()``` method
 <Arrow [2016-01-01T02:03:00+00:00]>
 >>>
 ```
-You can even return back datetime objects by passing along the 'datetime' type
+If you would rather have a string, you can arrow's ```.format()``` method.
+> For for info on string formatting, check out arrows tokens section: http://crsmithdev.com/arrow/#tokens
+```python
+>>> import datemath as dm
+>>>
+>>> src_timestamp = dm.parse('2016-01-01')
+>>> print src_timestamp
+2016-01-01T00:00:00+00:00
+>>>
+>>> new_timestamp = dm.parse('-2w', now=src_timestamp)
+>>> print new_timestamp
+2015-12-18T00:00:00+00:00
+>>>
+>>> new_timestamp.format('YYYY.MM.DD')
+u'2015.12.18'
+>>>
+```
+
+If you would rather have a datetime object instead, pass along the 'datetime' type
 ```python
 >>> dm.parse('now', type='datetime')
 datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
@@ -78,7 +99,7 @@ datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
 >>> dm.parse('now+2d-1m', type='datetime')
 datetime.datetime(2016, 1, 24, 22, 57, 45, 394470, tzinfo=tzutc())
 ```
-Want an Epoch/Unix Timestamp back instead? Pass along 'timestamp' type
+Rather have an Epoch/Unix Timestamp back instead? Pass along 'timestamp' type
 ```python
 >>> dm.parse('now+2d-1m', type='timestamp')
 1453676321
