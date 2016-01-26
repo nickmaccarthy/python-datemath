@@ -61,32 +61,32 @@ now/d+7d+12h                2016-01-08T12:00:00+00:00
 By default datemath return an arrow date object representing your timestamp.  
 
 ```python
->>> import datemath as dm
+>>> from datemath import dm
 >>>
->>> dm.parse('now+1h')
+>>> dm('now+1h')
 <Arrow [2016-01-01T01:00:00+00:00]>
->>> dm.parse('now+1h+1m')
+>>> dm('now+1h+1m')
 <Arrow [2016-01-01T01:01:00+00:00]>
->>> dm.parse('now+1h/d')
+>>> dm('now+1h/d')
 <Arrow [2016-01-02T00:00:00+00:00]>
->>> dm.parse('now-1d')
+>>> dm('now-1d')
 <Arrow [2015-12-31T00:00:00+00:00]>
->>> dm.parse('2016-01-01||+1/d')
+>>> dm('2016-01-01||+1/d')
 <Arrow [2016-01-02T00:00:00+00:00]>
->>> dm.parse('now/d+2h+3m')
+>>> dm('now/d+2h+3m')
 <Arrow [2016-01-01T02:03:00+00:00]>
 >>>
 ```
 If you would rather have a string, you can use arrow's ```.format()``` method.
 > For for info on string formatting, check out arrows tokens section: http://crsmithdev.com/arrow/#tokens
 ```python
->>> import datemath as dm
+>>> from datemath import dm
 >>>
->>> src_timestamp = dm.parse('2016-01-01')
+>>> src_timestamp = dm('2016-01-01')
 >>> print src_timestamp
 2016-01-01T00:00:00+00:00
 >>>
->>> new_timestamp = dm.parse('-2w', now=src_timestamp)
+>>> new_timestamp = dm('-2w', now=src_timestamp)
 >>> print new_timestamp
 2015-12-18T00:00:00+00:00
 >>>
@@ -97,15 +97,16 @@ u'2015.12.18'
 
 Rather have a python datetime object instead? Just pass along the 'datetime' type
 ```python
->>> dm.parse('now', type='datetime')
+from datemath import dm
+>>> dm('now', type='datetime')
 datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
 >>>
->>> dm.parse('now+2d-1m', type='datetime')
+>>> dm('now+2d-1m', type='datetime')
 datetime.datetime(2016, 1, 24, 22, 57, 45, 394470, tzinfo=tzutc())
 ```
 Oh, you want an Epoch/Unix Timestamp back instead? Yeah, we can do that.  Pass along 'timestamp' type instead.
 ```python
->>> dm.parse('now+2d-1m', type='timestamp')
+>>> dm('now+2d-1m', type='timestamp')
 1453676321
 ```
 
@@ -113,13 +114,14 @@ Oh, you want an Epoch/Unix Timestamp back instead? Yeah, we can do that.  Pass a
 By default all objects returned by datemath are in UTC.  If you want them them in a different timezone, just pass along the ```tz``` argument. 
 Timezone list can be found here: https://gist.github.com/pamelafox/986163
 ```python
->>> datemath.parse('now')
+from datemath import dm 
+>>> dm('now')
 <Arrow [2016-01-26T01:00:53.601088+00:00]>
 >>>
->>> datemath.parse('now', tz='US/Eastern')
+>>> dm('now', tz='US/Eastern')
 <Arrow [2016-01-25T20:01:05.976880-05:00]>
 >>>
->>> datemath.parse('now', tz='US/Pacific')
+>>> dm('now', tz='US/Pacific')
 <Arrow [2016-01-25T17:01:18.456882-08:00]>
 >>>
 
