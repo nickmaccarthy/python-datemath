@@ -2,13 +2,13 @@
 
 
 # What?
-A date match parser to be compatiable with the elasticsearch date math format
+A date math (aka datemath) parser compatiable with the elasticsearch 'date math' format
 
 # Why?
-Working with date objects in python has always been interesting.  Having a background in php, I have been looking for quite some time ( no pun intended ) for a way to do date time interpolation similar to php's ```strtotime()``` function.  While the arrow module comes close, I needed something that could turn math type strings into datetime objects for use in tattle.io and other projects I use in elasticsearch.  I have found even more uses for it, and hopefully you will to.
+Working with date objects in python has always been interesting.  Having a background in php, I have been looking for quite some time ( no pun intended ) for a way to do date time interpolation similar to php's ```strtotime()``` function.  While the arrow module comes close, I needed something that could turn date math type strings into datetime objects for use in tattle.io and other projects I use in elasticsearch.  I have found even more uses for it, including AWS cloudwatch and various other projects and hopefully you will too.
 
 # What is date math ?
-Similar to the SOLR date math format, elasticsearch has its own built in format for short hand date math.  This module aims to support that same coverage in python.
+Date Math is the short hand arithmetic to find relative time to fixed moments in date and time. Similar to the SOLR date math format, Elasticsearch has its own built in format for short hand date math and this module aims to support that same coverage in python.
 
 Documentation from elasticsearch:
 http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-date-format.html#date-math
