@@ -8,7 +8,7 @@ A date match parser to be compatiable with the elasticsearch date math format
 Working with date objects in python has always been interesting.  Having a background in php, I have been looking for quite some time ( no pun intended ) for a way to do date time interpolation similar to php's ```strtotime()``` function.  While the arrow module comes close, I needed something that could turn math type strings into datetime objects for use in tattle.io and other projects I use in elasticsearch.  I have found even more uses for it, and hopefully you will to.
 
 # What is date math ?
-Similar to the SOLR date math format, elasticsearch has its own built in format for short hand date math.  This module aim to provide that coverage in python.
+Similar to the SOLR date math format, elasticsearch has its own built in format for short hand date math.  This module aims to support that same coverage in python.
 
 Documentation from elasticsearch:
 http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-date-format.html#date-math
