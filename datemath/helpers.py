@@ -52,27 +52,35 @@ def unitMap(c):
         maps our units ( 'd', 'y', 'M', etc ) to shorthands required for arrow
     '''
 
-    if c == 'y' or c == 'Y':
+    if c == 'y' or c == 'Y' or c.lower() == 'years' or c.lower() == 'year':
         return 'years'
-    elif c == 'M':
+    elif c == 'M' or c.lower() == 'months' or c.lower() == 'month':
         return 'months'
-    elif c == 'm':
+    elif c == 'm' or c.lower() == 'minute' or c.lower() == 'minute':
         return 'minutes'
-    elif c == 'd' or c == 'D':
+    elif c == 'd' or c == 'D' or c.lower() == 'days' or c.lower() == 'day':
         return 'days'
-    elif c == 'w' or c == 'W': 
+    elif c == 'w' or c == 'W' or c.lower() == 'weeks' or c.lower() == 'week': 
         return 'weeks'
-    elif c == 'h' or c == 'H':
+    elif c == 'h' or c == 'H' or c.lower() == 'hours' or c.lower() == 'hour':
         return 'hours'
-    elif c == 's' or c == 'S':
+    elif c == 's' or c == 'S' or c.lower() == 'seconds' or c.lower() == 'second':
         return 'seconds'
     else:
         raise DateMathException("Not a valid offset: {0}".format(c))
 
 def as_datetime(expression, now, tz='UTC'):
+    '''
+        returs our datemath expression as a python datetime object
+        note: this has been deprecated and the 'type' argument in parse is the current way
+    '''
     return parse(expression, now, tz)
 
 def parse(expression, now=None, tz='UTC', type=None):
+    '''
+        the main meat and potatoes of this this whole thing
+        takes our datemath expression and does our date math
+    '''
     if now is None:
         now = arrow.utcnow()
 
@@ -122,19 +130,28 @@ def parse(expression, now=None, tz='UTC', type=None):
         return rettime
         
 
-
 def parseTime(timestamp, tz='UTC'):
+    '''
+        parses a date/time stamp and returns and arrow object
+    '''
     #if timestamp and len(timestamp) >= 4 and (timestamp >= 0 or timestamp < 0): 
     if timestamp and len(timestamp) >= 4: 
         return arrow.get(timestamp)
         
     
 def roundDate(now, unit, tz='UTC'):
+    '''
+        rounds our date object
+    '''
     now = now.floor(unit)
     if debug: print("roundDate Now: {0}".format(now))
     return now
 
 def calculate(now, offsetval, unit):
+    '''
+        calculates our dateobject using arrows replace method
+        see unitMap() for more details
+    ''' 
     try:
         now = now.replace(**{unit: offsetval})
         return now
@@ -142,6 +159,9 @@ def calculate(now, offsetval, unit):
         raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2}'.format(now,offsetval,unit))
 
 def evaluate(expression, now, timeZone='UTC'):
+    '''
+        evaluates our datemath style expression
+    '''
     if debug: print('Expression: {0}'.format(expression))
     if debug: print('Now: {0}'.format(now))
     val = 0
@@ -176,7 +196,6 @@ def evaluate(expression, now, timeZone='UTC'):
                 val = int(val)
             else:
                 val = int(-val)
-            
         elif re.match('[a-zA-Z]+', char):
             now = calculate(now, val, unitMap(char))
         
