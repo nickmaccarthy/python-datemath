@@ -77,7 +77,7 @@ By default datemath return an arrow date object representing your timestamp.
 <Arrow [2016-01-01T02:03:00+00:00]>
 >>>
 ```
-If you would rather have a string, you can arrow's ```.format()``` method.
+If you would rather have a string, you can use arrow's ```.format()``` method.
 > For for info on string formatting, check out arrows tokens section: http://crsmithdev.com/arrow/#tokens
 ```python
 >>> import datemath as dm
@@ -95,7 +95,7 @@ u'2015.12.18'
 >>>
 ```
 
-If you would rather have a datetime object instead, pass along the 'datetime' type
+Rather have a python datetime object instead? Just pass along the 'datetime' type
 ```python
 >>> dm.parse('now', type='datetime')
 datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
@@ -103,7 +103,7 @@ datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
 >>> dm.parse('now+2d-1m', type='datetime')
 datetime.datetime(2016, 1, 24, 22, 57, 45, 394470, tzinfo=tzutc())
 ```
-Rather have an Epoch/Unix Timestamp back instead? Pass along 'timestamp' type
+Oh, you want an Epoch/Unix Timestamp back instead? Pass along 'timestamp' type
 ```python
 >>> dm.parse('now+2d-1m', type='timestamp')
 1453676321
@@ -112,6 +112,7 @@ Rather have an Epoch/Unix Timestamp back instead? Pass along 'timestamp' type
 # Test
 ```python tests.py```
 
+Happy date math'ing
 
 This was inspired by the npm datemath-parser written by randing89
 https://github.com/randing89/datemath-parser
