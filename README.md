@@ -36,6 +36,10 @@ h or H      =   'hour'
 s or S      =   'second'
 ```
 
+# Install
+```python
+pip install python-datemath
+```
 # Examples
 Assuming our datetime is currently: '2016-01-01T00:00:00-00:00'
 ```
