@@ -109,10 +109,25 @@ Oh, you want an Epoch/Unix Timestamp back instead? Yeah, we can do that.  Pass a
 1453676321
 ```
 
+# What timezone are my objects in?
+By default all objects returned by datemath are in UTC.  If you want them them in a different timezone, just pass along the ```tz``` argument. 
+Timezone list can be found here: https://gist.github.com/pamelafox/986163
+```python
+>>> datemath.parse('now')
+<Arrow [2016-01-26T01:00:53.601088+00:00]>
+>>>
+>>> datemath.parse('now', tz='US/Eastern')
+<Arrow [2016-01-25T20:01:05.976880-05:00]>
+>>>
+>>> datemath.parse('now', tz='US/Pacific')
+<Arrow [2016-01-25T17:01:18.456882-08:00]>
+>>>
+
+```
 # Test
 ```python tests.py```
 
-Happy date math'ing
+Happy date math'ing!
 
 This was inspired by the npm datemath-parser written by randing89
 https://github.com/randing89/datemath-parser
