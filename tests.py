@@ -73,6 +73,7 @@ class TestDM(unittest.TestCase):
         
         # past
         self.assertEqual(dm('-3w').format(iso8601), arrow.utcnow().replace(weeks=-3).format(iso8601))
+        self.assertEqual(dm('-3W').format(iso8601), arrow.utcnow().replace(weeks=-3).format(iso8601))
         self.assertEqual(dm('-3w-2d-6h').format(iso8601), arrow.utcnow().replace(weeks=-3, days=-2, hours=-6).format(iso8601))
         self.assertEqual(dm('-3w-2d-22h-36s').format(iso8601), arrow.utcnow().replace(weeks=-3, days=-2, hours=-22, seconds=-36).format(iso8601))
         self.assertEqual(dm('-6y-3w-2d-22h-36s').format(iso8601), arrow.utcnow().replace(years=-6, weeks=-3, days=-2, hours=-22, seconds=-36).format(iso8601))
