@@ -16,19 +16,22 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+version = '1.1'
+
 setup(
     name='python-datemath',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.1',
+    version=version,
+    download_url = 'https://github.com/nickmaccarthy/python-datemath/tarball/{0}'.format(version),
 
     description='A python module to emulate the date math used in SOLR and Elasticsearch',
-    long_description=long_description,
 
     # The project's main homepage.
     url='https://github.com/nickmaccarthy/python-datemath',
+
 
     # Author details
     author='Nick MacCarthy',
