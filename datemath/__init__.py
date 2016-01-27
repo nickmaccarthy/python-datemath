@@ -1,4 +1,4 @@
-from helpers import parse
+from .helpers import parse
 
 def dm(expr):
     return parse(expr)
