@@ -233,4 +233,4 @@ if __name__ == "__main__":
     #print(type(parse('now-10m', type='datetime')))
     #print(type(parse('now', type='datetime')))
     #print(parse('now-2.5h'))
-    #print(parse('2016-01-01||-2.5d'))
+    #print(parse('2016-01-01||-3.2h'))
