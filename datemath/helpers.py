@@ -152,11 +152,14 @@ def calculate(now, offsetval, unit):
         calculates our dateobject using arrows replace method
         see unitMap() for more details
     ''' 
+    if unit not in ('days','hours','seconds'):
+        offsetval = int(offsetval)
     try:
         now = now.replace(**{unit: offsetval})
+        if debug: print("Calculate called:  now: {}, offsetval: {}, offsetval-type: {}, unit: {}".format(now, offsetval, type(offsetval), unit))
         return now
-    except:
-        raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2}'.format(now,offsetval,unit))
+    except Exception, e:
+        raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2} - reason: {3}'.format(now,offsetval,unit,e))
 
 def evaluate(expression, now, timeZone='UTC'):
     '''
@@ -185,17 +188,17 @@ def evaluate(expression, now, timeZone='UTC'):
             val = 0
 
             try:
-                m = re.match('(\d+)[\w+-/]', expression[i+1:])
+                m = re.match('(\d*[.]?\d+)[\w+-/]', expression[i+1:])
                 num = m.group(1)
-                val = val * 10 + int(num, 10)
+                val = val * 10 + float(num)
                 i = i + len(num)
             except Exception as e:
                 raise DateMathException("Invalid numerical datematch: What I got was - match: {0}, expression: {1}, error: {2}".format(expression[i+1:], expression, e)) 
     
             if char == '+':
-                val = int(val)
+                val = float(val)
             else:
-                val = int(-val)
+                val = float(-val)
         elif re.match('[a-zA-Z]+', char):
             now = calculate(now, val, unitMap(char))
         
@@ -209,23 +212,25 @@ def evaluate(expression, now, timeZone='UTC'):
 if __name__ == "__main__":
     if debug: print('NOW: {0}'.format(arrow.utcnow()))
     if debug: print('\n\n')
-    parse('now-1h')
-    parse('now+12h')
-    parse('now+1h')
-    parse('now+1h+1m')
-    parse('now+1h/d')
-    parse('now-2d/d')
-    parse('2012-01-01||+1M/d')
-    parse('now+1w/w')
-    parse('+1d/d')
-    parse('/h')
-    parse('/d')
-    parse('2014-11-18||+1M/M')
-    parse('2014-11-18||+1M/M+1h')
-    parse('2014-11-18||/w')
-    parse('2014-11-18||/y')
-    parse('2014-11-18||+1M-1m')
-    print(parse('now/d+7d+12h'))
-    print(parse('now', tz='US/Pacific'))
-    print(type(parse('now-10m', type='datetime')))
-    print(type(parse('now', type='datetime')))
+    #parse('now-1h')
+    #parse('now+12h')
+    #parse('now+1h')
+    #parse('now+1h+1m')
+    #parse('now+1h/d')
+    #parse('now-2d/d')
+    #parse('2012-01-01||+1M/d')
+    #parse('now+1w/w')
+    #parse('+1d/d')
+    #parse('/h')
+    #parse('/d')
+    #parse('2014-11-18||+1M/M')
+    #parse('2014-11-18||+1M/M+1h')
+    #parse('2014-11-18||/w')
+    #parse('2014-11-18||/y')
+    #parse('2014-11-18||+1M-1m')
+    #print(parse('now/d+7d+12h'))
+    #print(parse('now', tz='US/Pacific'))
+    #print(type(parse('now-10m', type='datetime')))
+    #print(type(parse('now', type='datetime')))
+    #print(parse('now-2.5h'))
+    #print(parse('2016-01-01||-2.5d'))

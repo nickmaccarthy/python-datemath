@@ -87,6 +87,11 @@ class TestDM(unittest.TestCase):
         self.assertAlmostEqual(dm('/w').datetime, arrow.utcnow().floor('week').datetime, delta=delta)
 
 
+        # Floats
+        self.assertEqual(dm('now-2.5h').format(iso8601), arrow.utcnow().replace(hours=-2.5).format(iso8601))
+        self.assertEqual(dm('now-2.5d').format(iso8601), arrow.utcnow().replace(days=-2.5).format(iso8601))
+
+
 if __name__ == "__main__":
     unittest.main()
         
