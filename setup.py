@@ -16,7 +16,7 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-version = '1.3'
+version = '1.4.2'
 
 setup(
     name='python-datemath',
