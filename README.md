@@ -49,6 +49,7 @@ now-1y                      2015-01-01T00:00:00+00:00
 now+1y+2d                   2017-01-03T00:00:00+00:00
 now+12h                     2016-01-01T12:00:00+00:00
 now+1d/d                    2016-01-03T00:00:00+00:00
+now-2.5h                    2015-12-31T21:30:00+00:00
 +2h                         2016-01-01T02:00:00+00:00
 +1h/h                       2016-01-01T02:00:00+00:00
 now+1w/w                    2016-01-11T00:00:00+00:00
@@ -124,6 +125,9 @@ from datemath import dm
 >>> dm('now', tz='US/Pacific')
 <Arrow [2016-01-25T17:01:18.456882-08:00]>
 >>>
+
+# Release Notes
+* v1.4.2 - Floats are now supported for days, hours, and seconds units.  Example ```now-2.5d```, ```now-3.2h```. Any other unit that is a float will be converted to an int and floored.
 
 ```
 # Test
