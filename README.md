@@ -126,11 +126,11 @@ from datemath import dm
 >>> dm('now', tz='US/Pacific')
 <Arrow [2016-01-25T17:01:18.456882-08:00]>
 >>>
+```
 
 # Release Notes
 * v1.4.3 - Floats are now supported for days, hours, and seconds units.  Example ```now-2.5d```, ```now-3.2h```. Any other unit other than days, hours, or seconds that is a float will be converted to an int and floored due to the datetime() module not being able to handle them.
 
-```
 # Test
 ```python tests.py```
 
