@@ -158,7 +158,7 @@ def calculate(now, offsetval, unit):
         now = now.replace(**{unit: offsetval})
         if debug: print("Calculate called:  now: {}, offsetval: {}, offsetval-type: {}, unit: {}".format(now, offsetval, type(offsetval), unit))
         return now
-    except Exception, e:
+    except Exception as e:
         raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2} - reason: {3}'.format(now,offsetval,unit,e))
 
 def evaluate(expression, now, timeZone='UTC'):
