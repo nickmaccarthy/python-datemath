@@ -168,23 +168,17 @@ def evaluate(expression, now, timeZone='UTC'):
     if debug: print('Expression: {0}'.format(expression))
     if debug: print('Now: {0}'.format(now))
     val = 0
-    for i, c in enumerate(expression):
+    i = 0
+    while i < len(expression):
         char = expression[i]
 
-        if i >= len(expression):
-            raise('Truncated datemath: {0}'.format(expression))
-
         if '/' in char:
-            # then we need to round up
+            # then we need to round
             next = str(expression[i+1])
-
-            roundUp = True            
+            i += 1
             now = roundDate(now, unitMap(next).rstrip('s'), timeZone)
 
         elif char == '+' or char == '-':
-            if i >= len(expression):
-                raise DateMathException('Truncated datemath: {0}'.format(expression))
-
             val = 0
 
             try:
@@ -202,7 +196,7 @@ def evaluate(expression, now, timeZone='UTC'):
         elif re.match('[a-zA-Z]+', char):
             now = calculate(now, val, unitMap(char))
         
-        i = i+1
+        i += 1
     if debug: print("Fin: {0}".format(now))
     if debug: print('\n\n')
     return now
