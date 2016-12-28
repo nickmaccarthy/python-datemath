@@ -57,6 +57,10 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('/M+2d').format(iso8601), arrow.utcnow().floor('month').replace(days=+2).format(iso8601))
         self.assertEqual(dm('now/w+2d-2h').format(iso8601), arrow.utcnow().floor('week').replace(days=+2, hours=-2).format(iso8601))
         self.assertEqual(dm('now/M+1w-2h+10s').format(iso8601), arrow.utcnow().floor('month').replace(weeks=+1, hours=-2, seconds=+10).format(iso8601))
+        self.assertEqual(dm('now-1d/d').format(iso8601), arrow.utcnow().replace(days=-1).floor('day').format(iso8601))
+        self.assertEqual(dm('now+1d/d').format(iso8601), arrow.utcnow().replace(days=1).floor('day').format(iso8601))
+        self.assertEqual(dm('now-10d/d').format(iso8601), arrow.utcnow().replace(days=-10).floor('day').format(iso8601))
+        self.assertEqual(dm('now+10d/d').format(iso8601), arrow.utcnow().replace(days=10).floor('day').format(iso8601))
         
 
         # future
