@@ -23,6 +23,10 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('2016-01-02T14:02:00||/h').format(iso8601), '2016-01-02T14:00:00-00:00')
         self.assertEqual(dm('2016-01-02T14:02:00||/H').format(iso8601), '2016-01-02T14:00:00-00:00')
 
+        # Rounding Up Tests
+        self.assertEqual(dm('2016-01-01||/d', roundDown=False).format('YYYY-MM-DDTHH:mm:ssZZ'), '2016-01-01T23:59:59-00:00')
+        self.assertEqual(dm('2014-11-18||/y', roundDown=False).format('YYYY-MM-DDTHH:mm:ssZZ'), '2014-12-31T23:59:59-00:00')
+
         # relitive formats
         # addition
         self.assertEqual(dm('+1s').format(iso8601), arrow.utcnow().replace(seconds=+1).format(iso8601))
@@ -51,6 +55,15 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('/M').format(iso8601), arrow.utcnow().floor('month').format(iso8601))
         self.assertEqual(dm('/Y').format(iso8601), arrow.utcnow().floor('year').format(iso8601))
         self.assertEqual(dm('/y').format(iso8601), arrow.utcnow().floor('year').format(iso8601))
+        # rounding up
+        self.assertEqual(dm('/s', roundDown=False).format(iso8601), arrow.utcnow().ceil('second').format(iso8601))
+        self.assertEqual(dm('/m', roundDown=False).format(iso8601), arrow.utcnow().ceil('minute').format(iso8601))
+        self.assertEqual(dm('/h', roundDown=False).format(iso8601), arrow.utcnow().ceil('hour').format(iso8601))
+        self.assertEqual(dm('/d', roundDown=False).format(iso8601), arrow.utcnow().ceil('day').format(iso8601))
+        self.assertEqual(dm('/w', roundDown=False).format(iso8601), arrow.utcnow().ceil('week').format(iso8601))
+        self.assertEqual(dm('/M', roundDown=False).format(iso8601), arrow.utcnow().ceil('month').format(iso8601))
+        self.assertEqual(dm('/Y', roundDown=False).format(iso8601), arrow.utcnow().ceil('year').format(iso8601))
+        self.assertEqual(dm('/y', roundDown=False).format(iso8601), arrow.utcnow().ceil('year').format(iso8601))
         # complicated date math
         self.assertEqual(dm('now/d-1h').format(iso8601), arrow.utcnow().floor('day').replace(hours=-1).format(iso8601))
         self.assertEqual(dm('+1h').format(iso8601), arrow.utcnow().replace(hours=+1).format(iso8601))
