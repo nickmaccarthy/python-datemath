@@ -76,7 +76,10 @@ By default datemath return an arrow date object representing your timestamp.
 <Arrow [2016-01-02T00:00:00+00:00]>
 >>> dm('now/d+2h+3m')
 <Arrow [2016-01-01T02:03:00+00:00]>
->>>
+>>> dm('now+/d', roundDown=False)
+<Arrow [2016-01-01T23:59:00+00:00]>
+>>> dm('now/d')
+<Arrow [2016-01-01T00:00:00+00:00]>
 ```
 
 If you would rather have a string, you can use arrow's ```.format()``` method.
@@ -129,6 +132,15 @@ from datemath import dm
 ```
 
 # Release Notes
+* v1.4.5 - Added roundDown functionality.  Allows user to specify the default rounding for expressions such as `/d`.
+    * example - assuming the time is currently 2016-01-01 12:00:00, we should get the following
+    ```
+>>> dm('now+/d', roundDown=False)
+<Arrow [2016-01-01T23:59:00+00:00]>
+>>> dm('now/d')
+<Arrow [2016-01-01T00:00:00+00:00]>
+```        
+* v1.4.4 - Fixed bug with expression logic and rounding:  https://github.com/nickmaccarthy/python-datemath/pull/2
 * v1.4.3 - Floats are now supported for days, hours, and seconds units.  Example ```now-2.5d```, ```now-3.2h```. Any other unit other than days, hours, or seconds that is a float will be converted to an int and floored due to the datetime() module not being able to handle them.
 
 # Test

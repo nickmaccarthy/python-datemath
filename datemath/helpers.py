@@ -80,6 +80,10 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
     '''
         the main meat and potatoes of this this whole thing
         takes our datemath expression and does our date math
+        :param expression - the datemath expression
+        :param now - what time is now; when will now be then?  soon
+        :param type - if we are dealing with a arrow or datetime object
+        :param roundDown - wether or not we should round up or round down on this.  default is roundDown=True, which means if it was 12:00:00, `/d` would be '00:00:00', and with roundDown=False, `/d` would be '29:59:59'
     '''
     if now is None:
         now = arrow.utcnow()
