@@ -76,7 +76,7 @@ def as_datetime(expression, now, tz='UTC'):
     '''
     return parse(expression, now, tz)
 
-def parse(expression, now=None, tz='UTC', type=None):
+def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
     '''
         the main meat and potatoes of this this whole thing
         takes our datemath expression and does our date math
@@ -123,7 +123,7 @@ def parse(expression, now=None, tz='UTC', type=None):
     if not math or math == '':
         rettime = time
 
-    rettime = evaluate(math, time, tz)
+    rettime = evaluate(math, time, tz, roundDown)
     if type:
         return getattr(rettime, type)
     else:
@@ -139,11 +139,14 @@ def parseTime(timestamp, tz='UTC'):
         return arrow.get(timestamp)
         
     
-def roundDate(now, unit, tz='UTC'):
+def roundDate(now, unit, tz='UTC', roundDown=True):
     '''
         rounds our date object
     '''
-    now = now.floor(unit)
+    if roundDown:
+        now = now.floor(unit)
+    else:
+        now = now.ceil(unit)
     if debug: print("roundDate Now: {0}".format(now))
     return now
 
@@ -161,7 +164,7 @@ def calculate(now, offsetval, unit):
     except Exception as e:
         raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2} - reason: {3}'.format(now,offsetval,unit,e))
 
-def evaluate(expression, now, timeZone='UTC'):
+def evaluate(expression, now, timeZone='UTC', roundDown=True):
     '''
         evaluates our datemath style expression
     '''
@@ -176,7 +179,7 @@ def evaluate(expression, now, timeZone='UTC'):
             # then we need to round
             next = str(expression[i+1])
             i += 1
-            now = roundDate(now, unitMap(next).rstrip('s'), timeZone)
+            now = roundDate(now, unitMap(next).rstrip('s'), timeZone, roundDown)
 
         elif char == '+' or char == '-':
             val = 0
