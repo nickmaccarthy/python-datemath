@@ -56,6 +56,10 @@ now+1w/w                    2016-01-11T00:00:00+00:00
 now/d+7d+12h                2016-01-08T12:00:00+00:00
 2016-01-01||+1d             2016-01-02T00:00:00+00:00
 2015-01-01||+2w             2015-01-15T00:00:00+00:00
+
+# Using the roundDown=False option
+now/d                       2016-01-01T23:59:59+00:00
+
 ```
 
 # Usage
@@ -84,7 +88,7 @@ By default datemath return an arrow date object representing your timestamp.
 
 If you would rather have a string, you can use arrow's ```.format()``` method.
 > For for info on string formatting, check out arrows tokens section: http://crsmithdev.com/arrow/#tokens
-```python
+```
 >>> from datemath import dm
 >>>
 >>> src_timestamp = dm('2016-01-01')
@@ -101,7 +105,7 @@ u'2015.12.18'
 ```
 
 Rather have a python datetime object instead? Just pass along the 'datetime' type
-```python
+```
 from datemath import dm
 >>> dm('now', type='datetime')
 datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
@@ -115,10 +119,24 @@ Oh, you want an Epoch/Unix Timestamp back instead? Yeah, we can do that.
 1453676321
 ```
 
+Or you can just import the `datamath` module, this will always give us a native `datetime` object
+```
+>>> from datemath import datemath
+>>>
+>>> datemath('2016-01-01T16:20:00||/d', roundDown=False)
+datetime.datetime(2016, 1, 1, 23, 59, 59, 999999, tzinfo=tzutc())
+>>>
+>>>
+>>> # roundDown=True is default and implied
+>>> datemath('2016-01-01T16:20:00||/d')
+datetime.datetime(2016, 1, 1, 0, 0, tzinfo=tzutc())
+>>>
+```
+
 # What timezone are my objects in?
 By default all objects returned by datemath are in UTC.  If you want them them in a different timezone, just pass along the ```tz``` argument. 
 Timezone list can be found here: https://gist.github.com/pamelafox/986163
-```python
+```
 from datemath import dm 
 >>> dm('now')
 <Arrow [2016-01-26T01:00:53.601088+00:00]>
