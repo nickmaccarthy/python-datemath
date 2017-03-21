@@ -46,7 +46,6 @@ debug = False
 class DateMathException(BaseException):
     pass 
 
-
 def unitMap(c):
     ''' 
         maps our units ( 'd', 'y', 'M', etc ) to shorthands required for arrow
@@ -66,8 +65,10 @@ def unitMap(c):
         return 'hours'
     elif c == 's' or c == 'S' or c.lower() == 'seconds' or c.lower() == 'second':
         return 'seconds'
+    elif c.lower() == 'n' or c.lower() == 'now':
+        raise DateMathException("""Timeunit: "{0}" is not valid.  If you are trying to specify 'now' after timestamp (i.e. 2016-01-01||now/d) that is not valid.  Please try 2016-01-01||/d instead""".format(c))
     else:
-        raise DateMathException("Not a valid offset: {0}".format(c))
+        raise DateMathException("Not a valid timeunit: {0}".format(c))
 
 def as_datetime(expression, now, tz='UTC'):
     '''
