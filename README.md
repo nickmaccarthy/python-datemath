@@ -113,11 +113,6 @@ datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
 >>> dm('now+2d-1m', type='datetime')
 datetime.datetime(2016, 1, 24, 22, 57, 45, 394470, tzinfo=tzutc())
 ```
-Oh, you want an Epoch/Unix Timestamp back instead? Yeah, we can do that. 
-```python
->>> dm('now+2d-1m', type='timestamp')
-1453676321
-```
 
 Or you can just import the `datamath` module, this will always give us a native `datetime` object
 ```
@@ -131,6 +126,12 @@ datetime.datetime(2016, 1, 1, 23, 59, 59, 999999, tzinfo=tzutc())
 >>> datemath('2016-01-01T16:20:00||/d')
 datetime.datetime(2016, 1, 1, 0, 0, tzinfo=tzutc())
 >>>
+```
+
+If you want a Epoch timestamp back instead, we can do that.  
+```python
+>>> dm('now+2d-1m', type='timestamp')
+1453676321
 ```
 
 # What timezone are my objects in?
