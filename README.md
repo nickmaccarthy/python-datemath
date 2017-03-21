@@ -154,6 +154,7 @@ from datemath import dm
 * v1.4.5 - Added roundDown functionality.  Allows user to specify the default rounding for expressions such as `/d`.
     * example - assuming the time is currently 2016-01-01 12:00:00, we should get the following
 ```
+>>> # now = 2016-01-01 14:00:00+00:00
 >>> dm('now+/d', roundDown=False)
 <Arrow [2016-01-01T23:59:00+00:00]>
 >>> dm('now/d')
