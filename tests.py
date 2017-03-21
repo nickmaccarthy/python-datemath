@@ -64,6 +64,12 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('/M', roundDown=False).format(iso8601), arrow.utcnow().ceil('month').format(iso8601))
         self.assertEqual(dm('/Y', roundDown=False).format(iso8601), arrow.utcnow().ceil('year').format(iso8601))
         self.assertEqual(dm('/y', roundDown=False).format(iso8601), arrow.utcnow().ceil('year').format(iso8601))
+
+
+        # roundDown option tests 
+        self.assertEqual(dm('2016-01-01T14:00:00||/d').format(iso8601), '2016-01-01T00:00:00-00:00')
+        self.assertEqual(dm('2016-01-01T14:00:00||/d', roundDown=False).format(iso8601), '2016-01-01T23:59:59-00:00')
+
         # complicated date math
         self.assertEqual(dm('now/d-1h').format(iso8601), arrow.utcnow().floor('day').replace(hours=-1).format(iso8601))
         self.assertEqual(dm('+1h').format(iso8601), arrow.utcnow().replace(hours=+1).format(iso8601))
