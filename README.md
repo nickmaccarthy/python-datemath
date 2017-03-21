@@ -59,7 +59,7 @@ now/d+7d+12h                2016-01-08T12:00:00+00:00
 
 # Using the roundDown=False option
 now/d                       2016-01-01T23:59:59+00:00
-
+now/Y                       2016-12-31T23:59:59+00:00
 ```
 
 # Usage
