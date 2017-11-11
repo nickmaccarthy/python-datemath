@@ -148,6 +148,8 @@ from datemath import dm
 >>> dm('now', tz='US/Pacific')
 <Arrow [2016-01-25T17:01:18.456882-08:00]>
 >>>
+>>> dm('2017-10-20 09:15:20', tz='US/Pacific')
+<Arrow [2017-10-20T09:15:20.000000-08:00]>
 ```
 
 # Release Notes
