@@ -40,6 +40,7 @@ now/d+7d+12h                2016-01-08T12:00:00+00:00
 
 import arrow
 import re
+from dateutil import tz
 
 debug = False 
 
@@ -127,21 +128,22 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
 
     if not math or math == '':
         rettime = time
-
     rettime = evaluate(math, time, tz, roundDown)
+
     if type:
         return getattr(rettime, type)
     else:
         return rettime
         
 
-def parseTime(timestamp, tz='UTC'):
+def parseTime(timestamp, timezone='UTC'):
     '''
         parses a date/time stamp and returns and arrow object
     '''
-    #if timestamp and len(timestamp) >= 4 and (timestamp >= 0 or timestamp < 0): 
     if timestamp and len(timestamp) >= 4: 
-        return arrow.get(timestamp)
+        ts = arrow.get(timestamp)
+        ts = ts.replace(tzinfo=tz.gettz(timezone))
+        return ts
         
     
 def roundDate(now, unit, tz='UTC', roundDown=True):
@@ -236,3 +238,5 @@ if __name__ == "__main__":
     #print(type(parse('now', type='datetime')))
     #print(parse('now-2.5h'))
     #print(parse('2016-01-01||-3.2h'))
+    #print(parse('now', tz='US/Pacific'))
+    #print(parse('2017-09-22T10:20:00', tz='US/Eastern'))

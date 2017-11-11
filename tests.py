@@ -1,7 +1,9 @@
 import unittest2 as unittest
 import arrow
+from datetime import datetime as pydatetime
 from datemath import dm 
 from datemath import datemath
+from dateutil import tz
 
 iso8601 = 'YYYY-MM-DDTHH:mm:ssZZ'
 class TestDM(unittest.TestCase):
@@ -26,6 +28,13 @@ class TestDM(unittest.TestCase):
         # Rounding Up Tests
         self.assertEqual(dm('2016-01-01||/d', roundDown=False).format('YYYY-MM-DDTHH:mm:ssZZ'), '2016-01-01T23:59:59-00:00')
         self.assertEqual(dm('2014-11-18||/y', roundDown=False).format('YYYY-MM-DDTHH:mm:ssZZ'), '2014-12-31T23:59:59-00:00')
+
+        # Timezone Tests
+        self.assertEqual(dm('now', tz='US/Pacific').format(iso8601), arrow.utcnow().to('US/Pacific').format(iso8601))
+        self.assertEqual(dm('2017-09-22 10:20:00', tz='US/Pacific').datetime, pydatetime(2017, 9, 22, 10, 20, 00, tzinfo=tz.gettz('US/Pacific')))
+        self.assertEqual(dm('2016-01-01', tz='UTC'), arrow.get('2016-01-01').to('UTC'))
+        self.assertEqual(dm('2016-01-01', tz='US/Eastern'), pydatetime(2016, 1, 1, tzinfo=tz.gettz('US/Eastern')))
+        self.assertEqual(datemath('2016-01-01T01:00:00', tz='US/Central'), pydatetime(2016, 1, 1, 1, 0, 0, tzinfo=tz.gettz('US/Central')))
 
         # relitive formats
         # addition
