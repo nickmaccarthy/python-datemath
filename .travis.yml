@@ -1,10 +1,20 @@
 language: python
-python:
-    - "2.6"
-    - "2.7"
-    - "3.2"
-    - "3.3"
-    - "3.4"
-    - "3.5"
-install: "pip install -r requirements.txt"
-script: python tests.py
+jobs:
+    include: 
+        - name: Python 2 / lecacy builds
+          python:
+              - "2.6"
+              - "2.7"
+          install: "pip install -r requirements-2.txt"
+          script: python tests-legacy.py
+
+        - name: Python 3.7 builds
+          python:
+            - "3.2"
+            - "3.3"
+            - "3.4"
+            - "3.5"
+            - "3.7"
+          install: "pip install -r requirements-3.txt"
+          script: python tests-3.py
+

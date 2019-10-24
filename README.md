@@ -153,6 +153,7 @@ from datemath import dm
 ```
 
 # Release Notes
+* v1.4.8 - Fixed regressions in `arrow()`, migrated from `replace()` to `shift()`.  Added python2 and python3 requirements and tests.  Modifed `helpers.py` to support `replace()` for legacy 2.7, and `shift()` for python 3+
 * v1.4.7 - Fixed timezone for date strings: https://github.com/nickmaccarthy/python-datemath/issues/6     
 * v1.4.5 - Added roundDown functionality.  Allows user to specify the default rounding for expressions such as `/d`.
     * example - assuming the time is currently 2016-01-01 12:00:00, we should get the following
