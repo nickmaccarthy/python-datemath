@@ -35,6 +35,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('2016-01-01', tz='UTC'), arrow.get('2016-01-01').to('UTC'))
         self.assertEqual(dm('2016-01-01', tz='US/Eastern'), pydatetime(2016, 1, 1, tzinfo=tz.gettz('US/Eastern')))
         self.assertEqual(datemath('2016-01-01T01:00:00', tz='US/Central'), pydatetime(2016, 1, 1, 1, 0, 0, tzinfo=tz.gettz('US/Central')))
+        self.assertEqual(datemath('2016-01-01T02:00:00', tz='US/Eastern'), pydatetime(2016, 1, 1, 2, tzinfo=tz.gettz('US/Eastern')))
 
         # relitive formats
         # addition
