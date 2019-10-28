@@ -40,9 +40,11 @@ now/d+7d+12h                2016-01-08T12:00:00+00:00
 
 import arrow
 import re
+import os
 from dateutil import tz
+import sys 
 
-debug = False 
+debug = True if os.environ.get('DEBUG') == 'true' else False 
 
 class DateMathException(BaseException):
     pass 
@@ -142,7 +144,7 @@ def parseTime(timestamp, timezone='UTC'):
     '''
     if timestamp and len(timestamp) >= 4: 
         ts = arrow.get(timestamp)
-        ts = ts.replace(tzinfo=tz.gettz(timezone))
+        ts = ts.replace(tzinfo=timezone)
         return ts
         
     
@@ -165,7 +167,7 @@ def calculate(now, offsetval, unit):
     if unit not in ('days','hours','seconds'):
         offsetval = int(offsetval)
     try:
-        now = now.replace(**{unit: offsetval})
+        now = now.shift(**{unit: offsetval})
         if debug: print("Calculate called:  now: {}, offsetval: {}, offsetval-type: {}, unit: {}".format(now, offsetval, type(offsetval), unit))
         return now
     except Exception as e:

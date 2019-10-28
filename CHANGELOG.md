@@ -1,0 +1,34 @@
+# Changelog
+
+## 1.4.9 (2019-10-26)
+
+* [FIX] [Issue #9](https://github.com/nickmaccarthy/python-datemath/issues/9) && [Issue #8](https://github.com/nickmaccarthy/python-datemath/issues/8) - Fixing deprecated arrow `replace()` function with `shift()`.
+* [FIX] Arrow upgrade to `0.15.2` to fix the above mentioned issues
+* [NEW] Breakout of python2 and python3 requirements
+* [NEW] Breakout of python2 and python3 specific CICD pipelines
+* [NEW] Derecated the following python version (although they may still work, they are no longer supported) - `2.4`,`2.6`,`3.4`,`3.5`
+* [FIX] Modifed `tests.py` to account for the timestamp change (tz is now `+0000`, instead of `-0000`)
+* [FIX] replaced `ts = ts.replace(tzinfo=tz.gettz(timezone))` with `ts = ts.replace(tzinfo=timezone)` in `datemath.helpers.parseTime()` to fix [Issue #7](https://github.com/nickmaccarthy/python-datemath/issues/7)
+
+## v1.4.8 (2019-10-25)
+* skipped due to name conflict on pypi, all changes are in `1.4.9`
+
+## v1.4.7 (2017-11-10)
+* [FIX] Fixed timezone for date strings: [Issue #6](https://github.com/nickmaccarthy/python-datemath/issues/6)
+
+## v1.4.5 (2017-03-21)
+* [NEW] Added roundDown functionality.  Allows user to specify the default rounding for expressions such as `/d`.
+* example - assuming the time is currently 2016-01-01 12:00:00, we should get the following
+```
+>>> # now = 2016-01-01 14:00:00+00:00
+>>> dm('now+/d', roundDown=False)
+<Arrow [2016-01-01T23:59:00+00:00]>
+>>> dm('now/d')
+<Arrow [2016-01-01T00:00:00+00:00]>
+```   
+
+## v1.4.4 (2016-12-28)
+* [FIX] Fixed bug with expression logic and rounding:  https://github.com/nickmaccarthy/python-datemath/pull/2
+
+## 1.4.3 (2016-03-31)
+* [NEW] Floats are now supported for days, hours, and seconds units.  Example ```now-2.5d```, ```now-3.2h```. Any other unit other than days, hours, or seconds that is a float will be converted to an int and floored due to the datetime() module not being able to handle them.
