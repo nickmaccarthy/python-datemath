@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.4.8 (2019-10-26)
+## 1.4.9 (2019-10-26)
 
 * [FIX] [Issue #9](https://github.com/nickmaccarthy/python-datemath/issues/9) && [Issue #8](https://github.com/nickmaccarthy/python-datemath/issues/8) - Fixing deprecated arrow `replace()` function with `shift()`.
 * [FIX] Arrow upgrade to `0.15.2` to fix the above mentioned issues
@@ -9,6 +9,9 @@
 * [NEW] Derecated the following python version (although they may still work, they are no longer supported) - `2.4`,`2.6`,`3.4`,`3.5`
 * [FIX] Modifed `tests.py` to account for the timestamp change (tz is now `+0000`, instead of `-0000`)
 * [FIX] replaced `ts = ts.replace(tzinfo=tz.gettz(timezone))` with `ts = ts.replace(tzinfo=timezone)` in `datemath.helpers.parseTime()` to fix [Issue #7](https://github.com/nickmaccarthy/python-datemath/issues/7)
+
+## v1.4.8 (2019-10-25)
+* skipped due to name conflict on pypi, all changes are in `1.4.9`
 
 ## v1.4.7 (2017-11-10)
 * [FIX] Fixed timezone for date strings: [Issue #6](https://github.com/nickmaccarthy/python-datemath/issues/6)
