@@ -144,7 +144,7 @@ def parseTime(timestamp, timezone='UTC'):
     '''
     if timestamp and len(timestamp) >= 4: 
         ts = arrow.get(timestamp)
-        ts = ts.replace(tzinfo=tz.gettz(timezone))
+        ts = ts.replace(tzinfo=timezone)
         return ts
         
     
@@ -167,10 +167,7 @@ def calculate(now, offsetval, unit):
     if unit not in ('days','hours','seconds'):
         offsetval = int(offsetval)
     try:
-        if sys.version_info[0] < 3:
-            now = now.replace(**{unit: offsetval})
-        else:
-            now = now.shift(**{unit: offsetval})
+        now = now.shift(**{unit: offsetval})
         if debug: print("Calculate called:  now: {}, offsetval: {}, offsetval-type: {}, unit: {}".format(now, offsetval, type(offsetval), unit))
         return now
     except Exception as e:
