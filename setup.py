@@ -15,9 +15,10 @@ here = path.abspath(path.dirname(__file__))
 # Get the long description from the README file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
+    long_description_content_type = "text/markdown"
 
-with open('VERSION.txt', 'r') as f:
-    version = f.read()
+with open(path.join(here, 'VERSION.txt'), encoding='utf-8') as fv:
+    version = fv.read()
 
 setup(
     name='python-datemath',
@@ -60,6 +61,7 @@ setup(
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7'
     ],
 
@@ -69,6 +71,9 @@ setup(
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+
+    package_data={'': ['*']},
+    include_package_data=True,
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:

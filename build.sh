@@ -13,8 +13,10 @@ rm -rf dist
 
 echo "Building for python 2.7..."
 python2.7 setup.py sdist bdist_wheel
+echo "\n\n\n"
 echo "Building for python 3.7+..."
 python3.7 setup.py sdist bdist_wheel
+echo "\n\n\n"
 
 echo "Running twine upload..."
 twine upload dist/*
