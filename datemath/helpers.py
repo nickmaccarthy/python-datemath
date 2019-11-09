@@ -46,7 +46,7 @@ import sys
 
 debug = True if os.environ.get('DEBUG') == 'true' else False 
 
-class DateMathException(BaseException):
+class DateMathException(Exception):
     pass 
 
 def unitMap(c):
