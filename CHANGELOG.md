@@ -1,12 +1,13 @@
 # Changelog
 
-### 1.5.0 (2019-11-09)
+## 1.5.0 (2019-11-09)
 
 * [FIX] [Issue #12](https://github.com/nickmaccarthy/python-datemath/issues/12) - missing VERSION.txt.  Added MANIFEST.in for sdist build
 * [FIX] [PR #13](https://github.com/nickmaccarthy/python-datemath/pull/13) - Fix `BaseException` to `Exception` inheritence, thank you for your contribution @yury-primer!
 
 ## 1.4.9 (2019-10-26)
 
+** PLEASE DO NOT USE THIS VERSION, use `1.5.0+` instead.  This may not compile on your system due to a missing VERSION.txt which was fixed in `1.5.0+` **
 * [FIX] [Issue #9](https://github.com/nickmaccarthy/python-datemath/issues/9) && [Issue #8](https://github.com/nickmaccarthy/python-datemath/issues/8) - Fixing deprecated arrow `replace()` function with `shift()`.
 * [FIX] Arrow upgrade to `0.15.2` to fix the above mentioned issues
 * [NEW] Breakout of python2 and python3 requirements
