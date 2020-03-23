@@ -1,6 +1,3 @@
-# !/usr/bin/python
-# coding=utf-8
-
 '''
 A basic utility module for parsing math like strings relating to dates
 
@@ -205,7 +202,6 @@ def evaluate(expression, now, timeZone='UTC', roundDown=True):
                 else:
                     raise DateMathException('''Unable to determine a proper time qualifier.  Do you have a proper numerical number followed by a valid time unit? i.e. '+1d', '-3d/d', etc.''')
             except Exception as e:
-                '''Invalid numerical datematch'''
                 raise DateMathException("Invalid datematch: What I got was - re.match: {0}, expression: {1}, error: {2}".format(expression[i+1:], expression, e)) 
     
             if char == '+':
