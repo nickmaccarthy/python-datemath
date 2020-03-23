@@ -1,8 +1,12 @@
+# !/usr/bin/python
+# coding=utf-8
+
+
 import unittest2 as unittest
 import arrow
 from datetime import datetime as pydatetime
-from datemath import dm 
-from datemath import datemath
+from datemath import dm, datemath
+from datemath.helpers import DateMathException as DateMathException
 from dateutil import tz
 
 iso8601 = 'YYYY-MM-DDTHH:mm:ssZZ'
@@ -122,6 +126,20 @@ class TestDM(unittest.TestCase):
         # Floats
         self.assertEqual(dm('now-2.5h').format(iso8601), arrow.utcnow().shift(hours=-2.5).format(iso8601))
         self.assertEqual(dm('now-2.5d').format(iso8601), arrow.utcnow().shift(days=-2.5).format(iso8601))
+
+
+        # Catch invalid timeunits
+        self.assertRaises(DateMathException, dm, '+1,')
+        self.assertRaises(DateMathException, dm, '+1.')
+        self.assertRaises(DateMathException, dm, '+1ö')
+        self.assertRaises(DateMathException, dm, '+1ä')
+        self.assertRaises(DateMathException, dm, '+1ü')
+        self.assertRaises(DateMathException, dm, '+1ß')
+
+        try:
+            dm('+1,')
+        except DateMathException as e:
+            self.assertTrue('is not a valid timeunit' in str(e))
 
 
 if __name__ == "__main__":
