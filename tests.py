@@ -127,6 +127,15 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('now-2.5h').format(iso8601), arrow.utcnow().shift(hours=-2.5).format(iso8601))
         self.assertEqual(dm('now-2.5d').format(iso8601), arrow.utcnow().shift(days=-2.5).format(iso8601))
 
+        # Test epoch timestamps
+        self.assertEqual(dm('1451610061').format(iso8601), '2016-01-01T01:01:01+00:00')
+        self.assertEqual(dm(1367900664).format(iso8601), '2013-05-07T04:24:24+00:00')
+
+        self.assertRaises(DateMathException, dm, '1451610061000')
+        try:
+            dm(1451610061000)
+        except DateMathException as e:
+            self.assertTrue('Unable to parse epoch timestamps in millis' in str(e))
 
         # Catch invalid timeunits
         self.assertRaises(DateMathException, dm, '+1,')

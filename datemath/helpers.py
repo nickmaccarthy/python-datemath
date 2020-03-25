@@ -107,6 +107,13 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
             return getattr(now, type)
         else:
             return now
+    elif re.match('\d{10,}', str(expression)):
+        if debug: print('found an epoch timestamp')
+        if len(str(expression)) == 13:
+            raise DateMathException('Unable to parse epoch timestamps in millis, please convert to the nearest second to continue - i.e. 1451610061 / 1000')
+        ts = arrow.get(int(expression))
+        ts = ts.replace(tzinfo=tz)
+        return ts
     elif expression.startswith('now'):
         ''' parse our standard "now+1d" kind of queries '''
         math = expression[3:]
