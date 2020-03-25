@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.1 (2020-03-25)
+
+* [FIX] [Issue #15](https://github.com/nickmaccarthy/python-datemath/issues/15) - Fixed issue with parser finding invalid timeunits and throwing correct errors
+* [NEW] [Issue #16](https://github.com/nickmaccarthy/python-datemath/issues/16) - Added support for parser to accecpt a epoch/unix timestamp but throw an error on epoch milli's since arrow can't support that.  
+
 ## 1.5.0 (2019-11-09)
 
 * [FIX] [Issue #12](https://github.com/nickmaccarthy/python-datemath/issues/12) - missing VERSION.txt.  Added MANIFEST.in for sdist build
