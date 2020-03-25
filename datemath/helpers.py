@@ -195,11 +195,14 @@ def evaluate(expression, now, timeZone='UTC', roundDown=True):
 
             try:
                 m = re.match('(\d*[.]?\d+)[\w+-/]', expression[i+1:])
-                num = m.group(1)
-                val = val * 10 + float(num)
-                i = i + len(num)
+                if m:
+                    num = m.group(1)
+                    val = val * 10 + float(num)
+                    i = i + len(num)
+                else:
+                    raise DateMathException('''Unable to determine a proper time qualifier.  Do you have a proper numerical number followed by a valid time unit? i.e. '+1d', '-3d/d', etc.''')
             except Exception as e:
-                raise DateMathException("Invalid numerical datematch: What I got was - match: {0}, expression: {1}, error: {2}".format(expression[i+1:], expression, e)) 
+                raise DateMathException("Invalid datematch: What I got was - re.match: {0}, expression: {1}, error: {2}".format(expression[i+1:], expression, e)) 
     
             if char == '+':
                 val = float(val)
@@ -207,6 +210,8 @@ def evaluate(expression, now, timeZone='UTC', roundDown=True):
                 val = float(-val)
         elif re.match('[a-zA-Z]+', char):
             now = calculate(now, val, unitMap(char))
+        else:
+            raise DateMathException(''''{}' is not a valid timeunit for expression: '{}' '''.format(char, expression))
         
         i += 1
     if debug: print("Fin: {0}".format(now))
