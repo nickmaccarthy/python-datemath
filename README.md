@@ -87,7 +87,7 @@ By default datemath return an arrow date object representing your timestamp.
 >>> dm(1451610061) # Timestamp in epoch/unix as int (Please note, we do not support epoch millisecond at this time.  Please convert your epoch millis to the nearest second. i.e. 1451610061000/1000)
 <Arrow [2016-01-01T01:01:01+00:00]>
 >>> dm('1451610061') # Timestamp in epoch/unix as string
-<Arrow [2013-05-07T04:24:24+00:00]>
+<Arrow [2016-01-01T01:01:01+00:00]>
 ```
 
 If you would rather have a string, you can use arrow's ```.format()``` method.
