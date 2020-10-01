@@ -5,6 +5,7 @@
 import unittest2 as unittest
 import arrow
 from datetime import datetime as pydatetime
+from datetime import timedelta
 from datemath import dm, datemath
 from datemath.helpers import DateMathException as DateMathException
 from dateutil import tz
@@ -40,7 +41,14 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('2016-01-01', tz='US/Eastern'), pydatetime(2016, 1, 1, tzinfo=tz.gettz('US/Eastern')))
         self.assertEqual(datemath('2016-01-01T01:00:00', tz='US/Central'), pydatetime(2016, 1, 1, 1, 0, 0, tzinfo=tz.gettz('US/Central')))
         self.assertEqual(datemath('2016-01-01T02:00:00', tz='US/Eastern'), pydatetime(2016, 1, 1, 2, tzinfo=tz.gettz('US/Eastern')))
-
+        # TZ offset inside of date string
+        self.assertEqual(datemath('2016-01-01T16:20:00.5+12:00'), pydatetime(2016, 1, 1, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
+        self.assertEqual(datemath('2016-01-01T16:20:00.5-05:00'), pydatetime(2016, 1, 1, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=-5))))
+        self.assertEqual(datemath('2016-01-01T16:20:00.5-00:00'), pydatetime(2016, 1, 1, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=0))))
+        # TZ offset inside of date string with datemath
+        self.assertEqual(datemath('2016-01-01T16:20:00.5+12:00||+1d'), pydatetime(2016, 1, 2, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
+        self.assertEqual(datemath('2016-01-01T16:20:00.6+12:00||+2d+1h'), pydatetime(2016, 1, 3, 17, 20, 0, 600000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
+        
         # relitive formats
         # addition
         self.assertEqual(dm('+1s').format(iso8601), arrow.utcnow().shift(seconds=+1).format(iso8601))
