@@ -1,13 +1,14 @@
 [![Build Status](https://travis-ci.org/nickmaccarthy/python-datemath.svg?branch=master)](https://travis-ci.org/nickmaccarthy/python-datemath.svg?branch=master)
 
+# Python Datemath
 
-# What?
+## What?
 A date math (aka datemath) parser compatiable with the elasticsearch 'date math' format
 
-# Why?
+## Why?
 Working with date objects in python has always been interesting.  Having a background in php, I have been looking for quite some time ( no pun intended ) for a way to do date time interpolation similar to php's ```strtotime()``` function.  While the arrow module comes close, I needed something that could turn date math type strings into datetime objects for use in tattle.io and other projects I use in elasticsearch.  I have found even more uses for it, including AWS cloudwatch and various other projects and hopefully you will too.
 
-# What is date math ?
+## What is date math ?
 Date Math is the short hand arithmetic to find relative time to fixed moments in date and time. Similar to the SOLR date math format, Elasticsearch has its own built in format for short hand date math and this module aims to support that same coverage in python.
 
 Documentation from elasticsearch:
@@ -25,7 +26,7 @@ http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-da
 
 > Note, when doing range type searches, and the upper value is inclusive, the rounding will properly be rounded to the ceiling instead of flooring it.
 
-# Unit Maps
+## Unit Maps
 ```
 y or Y      =   'year'
 M           =   'month'
@@ -36,11 +37,11 @@ h or H      =   'hour'
 s or S      =   'second'
 ```
 
-# Install
+## Install
 ```python
 pip install python-datemath
 ```
-# Examples
+## Examples
 Assuming our datetime is currently: '2016-01-01T00:00:00-00:00'
 ```
 Expression:                 Result:
@@ -62,7 +63,7 @@ now/d                       2016-01-01T23:59:59+00:00
 now/Y                       2016-12-31T23:59:59+00:00
 ```
 
-# Usage
+## Usage
 By default datemath return an arrow date object representing your timestamp.  
 
 ```
@@ -138,11 +139,17 @@ If you want a Epoch timestamp back instead, we can do that.
 1453676321
 ```
 
-# What timezone are my objects in?
-By default all objects returned by datemath are in UTC.  If you want them them in a different timezone, just pass along the ```tz``` argument. 
-Timezone list can be found here: https://gist.github.com/pamelafox/986163
+## What timezone are my objects in?
+By default all object returned by datemath are in UTC.  
+
+If you want them them back in a different timezone, just pass along the ```tz``` argument.  Timezone list can be found here: https://gist.github.com/pamelafox/986163
+
+If you provide a timezone offset in your timestring, datemath will return your time object as that timezone offset in the string.
+
+Note - currently timestrings with a timezone offset and the usage of the ```tz``` argument will result in the time object being returned with the timezone of what was in the timezone offset in the original string
 ```
-from datemath import dm 
+>>> from datemath import dm 
+>>>
 >>> dm('now')
 <Arrow [2016-01-26T01:00:53.601088+00:00]>
 >>>
@@ -154,7 +161,23 @@ from datemath import dm
 >>>
 >>> dm('2017-10-20 09:15:20', tz='US/Pacific')
 <Arrow [2017-10-20T09:15:20.000000-08:00]>
+>>> 
+>>> # Timestring with TZ offset in the string (ISO8601 format only)
+>>> dm('2016-01-01T00:00:00-05:00')
+<Arrow [2016-01-01T00:00:00-05:00]>
+>>>
+>>> # Timestring with TZooffset with datemath added (again, TS must be in ISO8601)
+>>> dm('2016-01-01T00:00:00-05:00||+2d+3h+5m')
+<Arrow [2016-01-03T03:05:00-05:00]>
+>>>
+>>> # Note, timestrings with TZ offsets will be returned as the timezone of the offset in the string even if the "tz" option is used. 
+>>> dm('2016-01-01T00:00:00-05:00', tz='US/Central')
+<Arrow [2016-01-01T00:00:00-05:00]>
+>>>
 ```
+
+## Debugging
+If you would like more verbose output to debug the process of what datemath is doing, simply set `export DATEMATH_DEBUG=true` in your shell then run some datemath tests.  To stop debugging, run `unset DATEMATH_DEBUG`.
 
 ## Changes
 See CHANGELOG.md
