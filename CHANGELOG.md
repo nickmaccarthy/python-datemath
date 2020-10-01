@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.2 (2020-10-01)
+* [FIX] [Issue #21](https://github.com/nickmaccarthy/python-datemath/issues/21) - Fixed an issue where if timezone offset was in a datetime string (ISO8601), the timezone of the returned datemath object would be UTC and not the timezone as specified in the datetime string.
+
 ## 1.5.1 (2020-03-25)
 
 * [FIX] [Issue #15](https://github.com/nickmaccarthy/python-datemath/issues/15) - Fixed issue with parser finding invalid timeunits and throwing correct errors
