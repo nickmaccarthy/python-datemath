@@ -48,7 +48,9 @@ class TestDM(unittest.TestCase):
         # TZ offset inside of date string with datemath
         self.assertEqual(datemath('2016-01-01T16:20:00.5+12:00||+1d'), pydatetime(2016, 1, 2, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
         self.assertEqual(datemath('2016-01-01T16:20:00.6+12:00||+2d+1h'), pydatetime(2016, 1, 3, 17, 20, 0, 600000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
-        
+        # If a TZ offset is in a datetime string, and there is a tz param used, the TZ offset will take precedence for the returned timeobj
+        self.assertEqual(datemath('2016-01-01T16:20:00.6+12:00||+2d+1h', tz='US/Eastern'), pydatetime(2016, 1, 3, 17, 20, 0, 600000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
+
         # relitive formats
         # addition
         self.assertEqual(dm('+1s').format(iso8601), arrow.utcnow().shift(seconds=+1).format(iso8601))
