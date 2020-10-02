@@ -42,9 +42,11 @@ import arrow
 import re
 import os
 from dateutil import tz
+import dateutil
 import sys 
+from pprint import pprint
 
-debug = True if os.environ.get('DEBUG') == 'true' else False 
+debug = True if os.environ.get('DATEMATH_DEBUG') else False 
 
 class DateMathException(Exception):
     pass 
@@ -75,7 +77,7 @@ def unitMap(c):
 
 def as_datetime(expression, now, tz='UTC'):
     '''
-        returs our datemath expression as a python datetime object
+        returns our datemath expression as a python datetime object
         note: this has been deprecated and the 'type' argument in parse is the current way
     '''
     return parse(expression, now, tz)
@@ -89,26 +91,28 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
         :param type - if we are dealing with a arrow or datetime object
         :param roundDown - wether or not we should round up or round down on this.  default is roundDown=True, which means if it was 12:00:00, `/d` would be '00:00:00', and with roundDown=False, `/d` would be '29:59:59'
     '''
+    if debug: print("parse() - starting for expression: {}".format(expression))
     if now is None:
+        if debug: print("parse() - Now is None, setting now to utcnow()")
         now = arrow.utcnow()
 
-    if debug: print("Orig Expression: {0}".format(expression))
+    if debug: print("parse() - Orig Expression: {0}".format(expression))
 
     math = ''
     time = ''
 
     if 'UTC' not in tz:
-        if debug: print("will now convert tz to {0}".format(tz))
+        if debug: print("parse() - will now convert tz to {0}".format(tz))
         now = now.to(tz)
 
     if expression == 'now':
-        if debug: print("Now, no dm: {0}".format(now))
+        if debug: print("parse() - Now, no dm: {0}".format(now))
         if type:
             return getattr(now, type)
         else:
             return now
     elif re.match('\d{10,}', str(expression)):
-        if debug: print('found an epoch timestamp')
+        if debug: print('parse() - found an epoch timestamp')
         if len(str(expression)) == 13:
             raise DateMathException('Unable to parse epoch timestamps in millis, please convert to the nearest second to continue - i.e. 1451610061 / 1000')
         ts = arrow.get(int(expression))
@@ -118,7 +122,7 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
         ''' parse our standard "now+1d" kind of queries '''
         math = expression[3:]
         time = now
-        if debug: print('now expression: {0}'.format(now))
+        if debug: print('parse() - now expression: {0}'.format(now))
     else:
         ''' parse out datemath with date, ex "2015-10-20||+1d"  '''
         if '||' in expression:
@@ -137,6 +141,7 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
 
     if not math or math == '':
         rettime = time
+
     rettime = evaluate(math, time, tz, roundDown)
 
     if type:
@@ -144,17 +149,32 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
     else:
         return rettime
         
-
 def parseTime(timestamp, timezone='UTC'):
     '''
-        parses a date/time stamp and returns and arrow object
+        parses a datetime string and returns and arrow object
     '''
     if timestamp and len(timestamp) >= 4: 
         ts = arrow.get(timestamp)
-        ts = ts.replace(tzinfo=timezone)
-        return ts
+        if debug: print("parseTime() - ts = {} :: vars :: {}".format(ts, vars(ts)))
+        if debug: print("parseTime() - ts timezone = {}".format(ts.tzinfo))
+        if debug: print("parseTime() - tzinfo type = {}".format(type(ts.tzinfo)))
+        if debug: print("parseTime() - timezone that came in = {}".format(timezone))
+
+        if ts.tzinfo:
+            import dateutil
+            if isinstance(ts.tzinfo, dateutil.tz.tz.tzoffset):
+            # this means our TZ probably came in via our datetime string
+            # then lets set our tz to whatever tzoffset is
+                ts = ts.replace(tzinfo=ts.tzinfo)
+            elif isinstance(ts.tzinfo, dateutil.tz.tz.tzutc):
+            # otherwise if we are utc, then lets just set it to be as such
+                ts = ts.replace(tzinfo=timezone)
+        else: 
+            # otherwise lets just ensure its set to whatever timezone came in
+            ts = ts.replace(tzinfo=timezone)
         
-    
+        return ts
+          
 def roundDate(now, unit, tz='UTC', roundDown=True):
     '''
         rounds our date object
@@ -163,7 +183,7 @@ def roundDate(now, unit, tz='UTC', roundDown=True):
         now = now.floor(unit)
     else:
         now = now.ceil(unit)
-    if debug: print("roundDate Now: {0}".format(now))
+    if debug: print("roundDate() Now: {0}".format(now))
     return now
 
 def calculate(now, offsetval, unit):
@@ -175,7 +195,7 @@ def calculate(now, offsetval, unit):
         offsetval = int(offsetval)
     try:
         now = now.shift(**{unit: offsetval})
-        if debug: print("Calculate called:  now: {}, offsetval: {}, offsetval-type: {}, unit: {}".format(now, offsetval, type(offsetval), unit))
+        if debug: print("calculate() called:  now: {}, offsetval: {}, offsetval-type: {}, unit: {}".format(now, offsetval, type(offsetval), unit))
         return now
     except Exception as e:
         raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2} - reason: {3}'.format(now,offsetval,unit,e))
@@ -184,8 +204,8 @@ def evaluate(expression, now, timeZone='UTC', roundDown=True):
     '''
         evaluates our datemath style expression
     '''
-    if debug: print('Expression: {0}'.format(expression))
-    if debug: print('Now: {0}'.format(now))
+    if debug: print('evaluate() - Expression: {0}'.format(expression))
+    if debug: print('evaluate() - Now: {0}'.format(now))
     val = 0
     i = 0
     while i < len(expression):
@@ -221,7 +241,7 @@ def evaluate(expression, now, timeZone='UTC', roundDown=True):
             raise DateMathException(''''{}' is not a valid timeunit for expression: '{}' '''.format(char, expression))
         
         i += 1
-    if debug: print("Fin: {0}".format(now))
+    if debug: print("evaluate() - Finished: {0}".format(now))
     if debug: print('\n\n')
     return now
 
