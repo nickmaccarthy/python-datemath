@@ -1,4 +1,4 @@
-name: Run tests
+name: Unit Tests
 
 on:
   push:
@@ -9,11 +9,18 @@ on:
     - master
 
 jobs:
-  tests-python-3:
-    runs-on: ubuntu-latest
+  tests-python2:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt install python2
+      - run: pip2 install -r requirements-2.txt
+      - run: python2 tests.py
+  tests-python3:
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: install requirements
-        run: pip install -r requirements-3.txt
+        run: pip3 install -r requirements-3.txt
       - name: run the tests
-        run: python tests.py 
+        run: python3 tests.py 
