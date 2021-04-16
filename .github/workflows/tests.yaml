@@ -14,6 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install requirements
-        run: pip install requirements-3.txt
+        run: pip install -r requirements-3.txt
       - name: run the tests
         run: python tests.py 
