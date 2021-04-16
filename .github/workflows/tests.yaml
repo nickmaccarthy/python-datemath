@@ -10,7 +10,7 @@ on:
 
 jobs:
   tests-python-3:
-    runs-on: python:3.8-buster
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: install requirements
