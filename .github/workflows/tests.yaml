@@ -1,0 +1,18 @@
+name: Run tests
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  tests-python-3:
+    runs-on: python:3.8-buster
+    steps:
+      - name: install requirements
+        run: pip install requirements-3.txt
+      - name: run the tests
+        run: python tests.py 
