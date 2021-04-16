@@ -1,4 +1,4 @@
-from .helpers import parse
+from .helpers import parse, DateMathException
 
 def dm(expr, **kwargs):
     ''' does our datemath and returns an arrow object '''
@@ -6,4 +6,4 @@ def dm(expr, **kwargs):
 
 def datemath(expr, **kwargs):
     ''' does our datemath and returns a datetime object '''
-    return parse(expr, **kwargs).datetime
+    return parse(expr, **kwargs)

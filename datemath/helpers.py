@@ -136,6 +136,7 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
             math = expression
             time = now
         else:
+            if debug: print('parse() - Found and expression that will hit the catchall')
             math = ''
             time = parseTime(expression, tz)
 
@@ -174,6 +175,9 @@ def parseTime(timestamp, timezone='UTC'):
             ts = ts.replace(tzinfo=timezone)
         
         return ts
+    else:
+        if debug: print('parseTime() - Doesnt look like we have a valid timestamp, raise an exception.  timestamp={}'.format(timestamp))
+        raise DateMathException('Valid length timestamp not provide, you gave me a timestamp of "{}", but I need something that has a len() >= 4'.format(timestamp))
           
 def roundDate(now, unit, tz='UTC', roundDown=True):
     '''
