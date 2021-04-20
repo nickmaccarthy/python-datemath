@@ -1,5 +1,4 @@
-name: Deploy Packages
-needs: Unit Tests
+name: Release Packages
 on:
   release:
     types: 
@@ -7,6 +6,8 @@ on:
 jobs:
   release-python2:
     runs-on: ubuntu-20.04
+    needs:
+      - build-python2
     steps:
       - uses: actions/checkout@v2
       - name: install python2 for ubuntu
@@ -28,7 +29,7 @@ jobs:
   release-python3:
     runs-on: ubuntu-20.04
     needs: 
-      - release-python2
+      - build-python3
     steps:
       - uses: actions/checkout@v2
       - name: install requirements for python3
