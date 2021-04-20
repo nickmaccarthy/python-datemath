@@ -4,7 +4,43 @@ on:
     types: 
       - released
 jobs:
-  release-python2:
+  # release-python2:
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: install python2 for ubuntu
+  #       run: sudo apt install python2
+  #     - name: get pip script for python2
+  #       run: curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+  #     - name: install pip for python2
+  #       run: sudo python2 get-pip.py
+  #     - name: install requirements for python2
+  #       run: pip2 install -r requirements-2.txt
+  #     - name: package and upload python2
+  #       env:
+  #         TWINE_USERNAME: __token__
+  #         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+  #         PYTHON_DATEMATH_VERSION: ${{ github.event.release.tag_name }}
+  #       run: |
+  #         python2.7 setup.py sdist bdist_wheel
+  #         twine upload dist/*
+  # release-python3:
+  #   runs-on: ubuntu-20.04
+  #   needs: 
+  #     - release-python2
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: install requirements for python3
+  #       run: pip3 install -r requirements-3.txt
+  #     - name: package and upload python3
+  #       env:
+  #         TWINE_USERNAME: __token__
+  #         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+  #         PYTHON_DATEMATH_VERSION: ${{ github.event.release.tag_name }}
+  #       run: |
+  #         python3 setup.py sdist bdist_wheel
+  #         twine upload dist/*
+  release-to-pypi:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -16,20 +52,6 @@ jobs:
         run: sudo python2 get-pip.py
       - name: install requirements for python2
         run: pip2 install -r requirements-2.txt
-      - name: package and upload python2
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-          PYTHON_DATEMATH_VERSION: ${{ github.event.release.tag_name }}
-        run: |
-          python2.7 setup.py sdist bdist_wheel
-          twine upload dist/*
-  release-python3:
-    runs-on: ubuntu-20.04
-    needs: 
-      - release-python2
-    steps:
-      - uses: actions/checkout@v2
       - name: install requirements for python3
         run: pip3 install -r requirements-3.txt
       - name: package and upload python3
@@ -38,5 +60,6 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
           PYTHON_DATEMATH_VERSION: ${{ github.event.release.tag_name }}
         run: |
+          python2.7 setup.py sdist bdist_wheel
           python3 setup.py sdist bdist_wheel
           twine upload dist/*

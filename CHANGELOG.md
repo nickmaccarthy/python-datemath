@@ -1,4 +1,6 @@
 # Changelog
+## 1.5.4 (2021-04-20)
+* skipped due to name conflict on pypi, all changes in this are from `1.5.3`
 
 ## 1.5.3 (2021-04-16)
 * [FIX] [Issue #25](https://github.com/nickmaccarthy/python-datemath/issues/25) - Fixed an issue where if you provided an invalid timestamp, i.e. `datemath('2')` you would not get an DateMathException back.  Also bumped dependencies.
