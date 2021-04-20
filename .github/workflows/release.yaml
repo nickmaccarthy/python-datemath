@@ -17,32 +17,27 @@ jobs:
         run: sudo python2 get-pip.py
       - name: install requirements for python2
         run: pip2 install -r requirements-2.txt
-      # - name: package and upload
-      #   env:
-      #     TWINE_USERNAME: __token__
-      #     TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-      #     PYTHON_DATEMATH_VERSION: ${{ github.event.release.tag_name }}
-      #   run: |
-      #     python2.7 setup.py sdist bdist_wheel
-      #     twine upload dist/*
-
-      # - name: Publish our Python distribution to PyPI
-      #   uses: pypa/gh-action-pypi-publish@release/v1
-      #   with:
-      #     user: __token__
-      #     password: ${{ secrets.PYPI_API_TOKEN }}
-  # build-python3:
-  #   runs-on: ubuntu-20.04
-  #   needs: 
-  #     - build-python2
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: install requirements for python3
-  #       run: pip3 install -r requirements-3.txt
-  #     - name: build the package
-  #       run: python3 setup.py sdist bdist_wheel
-  #     - name: Publish our Python distribution to PyPI
-  #       uses: pypa/gh-action-pypi-publish@release/v1
-  #       with:
-  #         user: __token__
-  #         password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: package and upload python2
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+          PYTHON_DATEMATH_VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          python2.7 setup.py sdist bdist_wheel
+          twine upload dist/*
+  release-python3:
+    runs-on: ubuntu-20.04
+    needs: 
+      - release-python2
+    steps:
+      - uses: actions/checkout@v2
+      - name: install requirements for python3
+        run: pip3 install -r requirements-3.txt
+      - name: package and upload python3
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+          PYTHON_DATEMATH_VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          python3 setup.py sdist bdist_wheel
+          twine upload dist/*
