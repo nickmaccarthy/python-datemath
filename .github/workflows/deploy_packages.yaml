@@ -28,7 +28,7 @@ jobs:
       - name: install requirements for python3
         run: pip3 install -r requirements-3.txt
       - name: build the package
-        run: python2.7 setup.py sdist bdist_wheel
+        run: python3 setup.py sdist bdist_wheel
   # upload-to-pypi:
   #   runs-on: ubuntu-20.04
   #   steps:
