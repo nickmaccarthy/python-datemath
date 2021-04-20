@@ -13,6 +13,7 @@ from dateutil import tz
 iso8601 = 'YYYY-MM-DDTHH:mm:ssZZ'
 class TestDM(unittest.TestCase):
     
+
     def testParse(self):
 
         # Baisc dates
@@ -154,7 +155,11 @@ class TestDM(unittest.TestCase):
         self.assertRaises(DateMathException, dm, '+1ä')
         self.assertRaises(DateMathException, dm, '+1ü')
         self.assertRaises(DateMathException, dm, '+1ß')
-
+        self.assertRaises(DateMathException, dm, '2')
+        self.assertRaises(DateMathException, datemath, '2')
+        self.assertRaises(DateMathException, dm, '123')
+        self.assertRaises(DateMathException, datemath, '123')
+        
         try:
             dm('+1,')
         except DateMathException as e:

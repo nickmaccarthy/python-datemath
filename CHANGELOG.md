@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.3 (2021-04-16)
+* [FIX] [Issue #25](https://github.com/nickmaccarthy/python-datemath/issues/25) - Fixed an issue where if you provided an invalid timestamp, i.e. `datemath('2')` you would not get an DateMathException back.  Also bumped dependencies.
+
 ## 1.5.2 (2020-10-01)
 * [FIX] [Issue #21](https://github.com/nickmaccarthy/python-datemath/issues/21) - Fixed an issue where if timezone offset was in a datetime string (ISO8601), the timezone of the returned datemath object would be UTC and not the timezone as specified in the datetime string.
 
