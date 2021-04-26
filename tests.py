@@ -15,6 +15,9 @@ class TestDM(unittest.TestCase):
     
 
     def testParse(self):
+        # Make sure our helpers return the correct objects
+        self.assertIsInstance(datemath('now'), pydatetime)
+        self.assertIsInstance(dm('now'), arrow.arrow.Arrow)
 
         # Baisc dates
         self.assertEqual(dm('2016.01.02').format(iso8601), '2016-01-02T00:00:00+00:00')
@@ -42,13 +45,16 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('2016-01-01', tz='US/Eastern'), pydatetime(2016, 1, 1, tzinfo=tz.gettz('US/Eastern')))
         self.assertEqual(datemath('2016-01-01T01:00:00', tz='US/Central'), pydatetime(2016, 1, 1, 1, 0, 0, tzinfo=tz.gettz('US/Central')))
         self.assertEqual(datemath('2016-01-01T02:00:00', tz='US/Eastern'), pydatetime(2016, 1, 1, 2, tzinfo=tz.gettz('US/Eastern')))
+        
         # TZ offset inside of date string
         self.assertEqual(datemath('2016-01-01T16:20:00.5+12:00'), pydatetime(2016, 1, 1, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
         self.assertEqual(datemath('2016-01-01T16:20:00.5-05:00'), pydatetime(2016, 1, 1, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=-5))))
         self.assertEqual(datemath('2016-01-01T16:20:00.5-00:00'), pydatetime(2016, 1, 1, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=0))))
+        
         # TZ offset inside of date string with datemath
         self.assertEqual(datemath('2016-01-01T16:20:00.5+12:00||+1d'), pydatetime(2016, 1, 2, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
         self.assertEqual(datemath('2016-01-01T16:20:00.6+12:00||+2d+1h'), pydatetime(2016, 1, 3, 17, 20, 0, 600000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
+        
         # If a TZ offset is in a datetime string, and there is a tz param used, the TZ offset will take precedence for the returned timeobj
         self.assertEqual(datemath('2016-01-01T16:20:00.6+12:00||+2d+1h', tz='US/Eastern'), pydatetime(2016, 1, 3, 17, 20, 0, 600000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
 
@@ -62,6 +68,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('+1M').format(iso8601), arrow.utcnow().shift(months=+1).format(iso8601))
         self.assertEqual(dm('+1Y').format(iso8601), arrow.utcnow().shift(years=+1).format(iso8601))
         self.assertEqual(dm('+1y').format(iso8601), arrow.utcnow().shift(years=+1).format(iso8601))
+        
         # subtraction
         self.assertEqual(dm('-1s').format(iso8601), arrow.utcnow().shift(seconds=-1).format(iso8601))
         self.assertEqual(dm('-1m').format(iso8601), arrow.utcnow().shift(minutes=-1).format(iso8601))
@@ -71,6 +78,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('-1M').format(iso8601), arrow.utcnow().shift(months=-1).format(iso8601))
         self.assertEqual(dm('-1Y').format(iso8601), arrow.utcnow().shift(years=-1).format(iso8601))
         self.assertEqual(dm('-1y').format(iso8601), arrow.utcnow().shift(years=-1).format(iso8601))
+        
         # rounding
         self.assertEqual(dm('/s').format(iso8601), arrow.utcnow().floor('second').format(iso8601))
         self.assertEqual(dm('/m').format(iso8601), arrow.utcnow().floor('minute').format(iso8601))
@@ -80,6 +88,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('/M').format(iso8601), arrow.utcnow().floor('month').format(iso8601))
         self.assertEqual(dm('/Y').format(iso8601), arrow.utcnow().floor('year').format(iso8601))
         self.assertEqual(dm('/y').format(iso8601), arrow.utcnow().floor('year').format(iso8601))
+        
         # rounding up
         self.assertEqual(dm('/s', roundDown=False).format(iso8601), arrow.utcnow().ceil('second').format(iso8601))
         self.assertEqual(dm('/m', roundDown=False).format(iso8601), arrow.utcnow().ceil('minute').format(iso8601))
@@ -89,8 +98,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('/M', roundDown=False).format(iso8601), arrow.utcnow().ceil('month').format(iso8601))
         self.assertEqual(dm('/Y', roundDown=False).format(iso8601), arrow.utcnow().ceil('year').format(iso8601))
         self.assertEqual(dm('/y', roundDown=False).format(iso8601), arrow.utcnow().ceil('year').format(iso8601))
-
-
+        
         # roundDown option tests 
         self.assertEqual(dm('2016-01-01T14:00:00||/d').format(iso8601), '2016-01-01T00:00:00+00:00')
         self.assertEqual(dm('2016-01-01T14:00:00||/d', roundDown=False).format(iso8601), '2016-01-01T23:59:59+00:00')
@@ -143,6 +151,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm(1367900664).format(iso8601), '2013-05-07T04:24:24+00:00')
 
         self.assertRaises(DateMathException, dm, '1451610061000')
+
         try:
             dm(1451610061000)
         except DateMathException as e:
