@@ -1,4 +1,9 @@
 # Changelog
+## 1.5.5 (2021-04-26)
+* [FIX] [Issue #28](https://github.com/nickmaccarthy/python-datemath/issues/28)
+    * `datemath()` object now returns the expected `datetime` object instead of an `Arrow` object
+    * added tests to catch invalid object types of helpers
+
 ## 1.5.4 (2021-04-20)
 * skipped due to name conflict on pypi, all changes in this are from `1.5.3`
 
