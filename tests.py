@@ -6,7 +6,6 @@ import unittest2 as unittest
 import arrow
 from datetime import datetime as pydatetime
 from datetime import timedelta
-from datetime import timezone as pydttz
 from datemath import dm, datemath
 from datemath.helpers import DateMathException as DateMathException
 from dateutil import tz
