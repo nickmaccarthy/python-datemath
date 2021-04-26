@@ -6,4 +6,4 @@ def dm(expr, **kwargs):
 
 def datemath(expr, **kwargs):
     ''' does our datemath and returns a datetime object '''
-    return parse(expr, **kwargs)
+    return parse(expr, **kwargs).datetime
