@@ -21,5 +21,5 @@ tqdm==4.36.1
 traceback2==1.4.0
 twine==2.0.0
 unittest2==1.1.0
-urllib3==1.24.3
+urllib3==1.26.5
 webencodings==0.5.1
