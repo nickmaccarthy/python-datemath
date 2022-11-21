@@ -2,7 +2,7 @@
 # coding=utf-8
 
 
-import unittest2 as unittest
+import unittest
 import arrow
 from datetime import datetime as pydatetime
 from datetime import timedelta
