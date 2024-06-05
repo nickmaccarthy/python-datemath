@@ -111,7 +111,7 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
             return getattr(now, type)
         else:
             return now
-    elif re.match('\d{10,}', str(expression)):
+    elif re.match(r'\d{10,}', str(expression)):
         if debug: print('parse() - found an epoch timestamp')
         if len(str(expression)) == 13:
             raise DateMathException('Unable to parse epoch timestamps in millis, please convert to the nearest second to continue - i.e. 1451610061 / 1000')
@@ -225,7 +225,7 @@ def evaluate(expression, now, timeZone='UTC', roundDown=True):
             val = 0
 
             try:
-                m = re.match('(\d*[.]?\d+)[\w+-/]', expression[i+1:])
+                m = re.match(r'(\d*[.]?\d+)[\w+-/]', expression[i+1:])
                 if m:
                     num = m.group(1)
                     val = val * 10 + float(num)
