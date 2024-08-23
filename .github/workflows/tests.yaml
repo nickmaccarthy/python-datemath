@@ -7,20 +7,11 @@ on:
     branches:
     - master
 jobs:
-  tests-python2:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - run: sudo apt install python2
-      - run: curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
-      - run: sudo python2 get-pip.py
-      - run: pip2 install -r requirements-2.txt
-      - run: python2 tests.py
   tests-python3:
     runs-on: ubuntu-20.04 # this should probably get updated to a python 3.9+ image
     steps:
       - uses: actions/checkout@v2
-      - name: print python verions
+      - name: print python version
         run:  python3 --version
       - name: install requirements
         run: pip3 install -r requirements-3.txt
