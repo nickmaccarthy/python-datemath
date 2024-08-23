@@ -10,7 +10,7 @@ from datemath import dm, datemath
 from datemath.helpers import DateMathException as DateMathException
 from dateutil import tz
 from freezegun import freeze_time
-from zoneinfo import ZoneInfo
+import pytz
 
 iso8601 = 'YYYY-MM-DDTHH:mm:ssZZ'
 class TestDM(unittest.TestCase):
@@ -45,10 +45,10 @@ class TestDM(unittest.TestCase):
     def testTimezone(self):
         # Timezone Tests
         with freeze_time(datemath('now/d', tz='US/Pacific')):
-            self.assertEqual(datemath('now/d', tz='US/Pacific'), pydatetime.now(tz=ZoneInfo("US/Pacific")))
+            self.assertEqual(datemath('now/d', tz='US/Pacific'), pydatetime.now(tz=pytz.timezone("US/Pacific")))
 
         with freeze_time(pydatetime(2017, 9, 22, 10, 20, 00, tzinfo=tz.gettz('US/Pacific'))):
-            self.assertEqual(dm('2017-09-22 10:20:00', tz='US/Pacific').datetime, pydatetime.now(tz=ZoneInfo("US/Pacific")))
+            self.assertEqual(dm('2017-09-22 10:20:00', tz='US/Pacific').datetime, pydatetime.now(tz=pytz.timezone("US/Pacific")))
         
         with freeze_time(datemath('2016-01-01T00:00:00', tz='UTC')):
             self.assertEqual(dm('2016-01-01', tz='UTC'), arrow.get('2016-01-01').to('UTC'))
