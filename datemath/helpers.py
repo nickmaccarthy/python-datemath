@@ -39,19 +39,22 @@ now/d+7d+12h                2016-01-08T12:00:00+00:00
 '''
 
 import arrow
+from arrow import Arrow
+from datetime import datetime
 import re
 import os
 from dateutil import tz
 import dateutil
 import sys 
 from pprint import pprint
+from typing import Any, Optional
 
 debug = True if os.environ.get('DATEMATH_DEBUG') else False 
 
 class DateMathException(Exception):
     pass 
 
-def unitMap(c):
+def unitMap(c: str) -> str:
     ''' 
         maps our units ( 'd', 'y', 'M', etc ) to shorthands required for arrow
     '''
@@ -75,14 +78,7 @@ def unitMap(c):
     else:
         raise DateMathException("Not a valid timeunit: {0}".format(c))
 
-def as_datetime(expression, now, tz='UTC'):
-    '''
-        returns our datemath expression as a python datetime object
-        note: this has been deprecated and the 'type' argument in parse is the current way
-    '''
-    return parse(expression, now, tz)
-
-def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
+def parse(expression: str, now: Any = None, tz: str = 'UTC', type: Any = None, roundDown: bool = True) -> Arrow:
     '''
         the main meat and potatoes of this this whole thing
         takes our datemath expression and does our date math
@@ -99,7 +95,7 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
     if debug: print("parse() - Orig Expression: {0}".format(expression))
 
     math = ''
-    time = ''
+    time = None
 
     if 'UTC' not in tz:
         if debug: print("parse() - will now convert tz to {0}".format(tz))
@@ -111,7 +107,7 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
             return getattr(now, type)
         else:
             return now
-    elif re.match('\d{10,}', str(expression)):
+    elif re.match(r'\d{10,}', str(expression)):
         if debug: print('parse() - found an epoch timestamp')
         if len(str(expression)) == 13:
             raise DateMathException('Unable to parse epoch timestamps in millis, please convert to the nearest second to continue - i.e. 1451610061 / 1000')
@@ -150,7 +146,7 @@ def parse(expression, now=None, tz='UTC', type=None, roundDown=True):
     else:
         return rettime
         
-def parseTime(timestamp, timezone='UTC'):
+def parseTime(timestamp: str, timezone: str = 'UTC') -> Arrow:
     '''
         parses a datetime string and returns and arrow object
     '''
@@ -179,7 +175,7 @@ def parseTime(timestamp, timezone='UTC'):
         if debug: print('parseTime() - Doesnt look like we have a valid timestamp, raise an exception.  timestamp={}'.format(timestamp))
         raise DateMathException('Valid length timestamp not provide, you gave me a timestamp of "{}", but I need something that has a len() >= 4'.format(timestamp))
           
-def roundDate(now, unit, tz='UTC', roundDown=True):
+def roundDate(now: Any, unit: str, tz: str = 'UTC', roundDown: bool = True) -> Arrow:
     '''
         rounds our date object
     '''
@@ -190,7 +186,7 @@ def roundDate(now, unit, tz='UTC', roundDown=True):
     if debug: print("roundDate() Now: {0}".format(now))
     return now
 
-def calculate(now, offsetval, unit):
+def calculate(now: Arrow, offsetval: float, unit: str) -> Arrow:
     '''
         calculates our dateobject using arrows replace method
         see unitMap() for more details
@@ -204,13 +200,13 @@ def calculate(now, offsetval, unit):
     except Exception as e:
         raise DateMathException('Unable to calculate date: now: {0}, offsetvalue: {1}, unit: {2} - reason: {3}'.format(now,offsetval,unit,e))
 
-def evaluate(expression, now, timeZone='UTC', roundDown=True):
+def evaluate(expression: str, now: Arrow, timeZone: str = 'UTC', roundDown: bool = True) -> Arrow:
     '''
         evaluates our datemath style expression
     '''
     if debug: print('evaluate() - Expression: {0}'.format(expression))
     if debug: print('evaluate() - Now: {0}'.format(now))
-    val = 0
+    val = float(0)
     i = 0
     while i < len(expression):
         char = expression[i]
@@ -225,7 +221,7 @@ def evaluate(expression, now, timeZone='UTC', roundDown=True):
             val = 0
 
             try:
-                m = re.match('(\d*[.]?\d+)[\w+-/]', expression[i+1:])
+                m = re.match(r'(\d*[.]?\d+)[\w+-/]', expression[i+1:])
                 if m:
                     num = m.group(1)
                     val = val * 10 + float(num)
@@ -239,7 +235,7 @@ def evaluate(expression, now, timeZone='UTC', roundDown=True):
                 val = float(val)
             else:
                 val = float(-val)
-        elif re.match('[a-zA-Z]+', char):
+        elif re.match(r'[a-zA-Z]+', char):
             now = calculate(now, val, unitMap(char))
         else:
             raise DateMathException(''''{}' is not a valid timeunit for expression: '{}' '''.format(char, expression))
