@@ -1,21 +1,12 @@
-[![Build Status](https://travis-ci.org/nickmaccarthy/python-datemath.svg?branch=master)](https://travis-ci.org/nickmaccarthy/python-datemath.svg?branch=master)
-
 # Python Datemath
 
 ## What?
 
-A date math (aka datemath) parser compatiable with the elasticsearch 'date math' format
+A date math (aka datemath) parser compatiable with the elasticsearch "date math" format
 
-## Why?
+## What is "date math"?
 
-Working with date objects in python has always been interesting.  Having a background in php, I have been looking for quite some time ( no pun intended ) for a way to do date time interpolation similar to php's ```strtotime()``` function.  While the arrow module comes close, I needed something that could turn date math type strings into datetime objects for use in [tattle.io](http://tattle.io) and other projects I use in elasticsearch.  I have found even more uses for it, including AWS cloudwatch and various other projects and hopefully you will too.
-
-## What is date math?
-
-Date Math is the short hand arithmetic to find relative time to fixed moments in date and time. Similar to the SOLR date math format, Elasticsearch has its own built in format for short hand date math and this module aims to support that same coverage in python.
-
-Documentation from elasticsearch:
-[http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-date-format.html#date-math](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/mapping-date-format.html#date-math)
+Date Math is the short hand arithmetic to find relative time to fixed moments in date and time. Similar to the SOLR date math format, we aim to support that same coverage in python.
 
 > The date type supports using date math expression when using it in a query/filter (mainly makes sense in range query/filter).
 >
@@ -31,6 +22,7 @@ Documentation from elasticsearch:
 
 ## Unit Maps
 
+The "unit maps" here define the shorthand sytax for the dates/timeframes we are working with:
 ```yaml
 y or Y      =   'year'
 M           =   'month'
@@ -39,17 +31,14 @@ d or D      =   'day'
 w           =   'week'
 h or H      =   'hour'
 s or S      =   'second'
-```
-
-## Install
-
-```python
-pip install python-datemath
+now         =    <current_time_and_date>
 ```
 
 ## Examples
 
-Assuming our datetime is currently: `2016-01-01T00:00:00-00:00`
+Here are some examples of using date math to find dates both in the past and in the future
+
+Assuming our "now" datetime is currently: `2016-01-01T00:00:00-00:00`
 
 ```yaml
 Expression:                 Result:
@@ -73,7 +62,7 @@ now/Y                       2016-12-31T23:59:59+00:00
 
 ## Usage
 
-By default datemath return an arrow date object representing your timestamp.  
+If you use the `dm` function in the datemath module, we will return an arrow date object representing your timestamp.  
 
 ```python
 >>> from datemath import dm
@@ -118,8 +107,25 @@ If you would rather have a string, you can use arrow's ```.format()``` method.
 u'2015.12.18'
 ```
 
-Rather have a python datetime object instead? Just pass along the 'datetime' type
+If you would rather have your time object come back in standard python `datetime`, use the `datemath` function instead:
 
+```python
+>>> from datemath import datemath
+>>> ## Assuming "now" is 2016-01-01T00:00:00
+>>> datemath("now-1h")
+datetime.datetime(2015, 12, 31, 23, 0, tzinfo=tzutc())
+# Cast it as a str() get a string of the timestamp back too
+>>> str(datemath("now-1h"))
+'2015-12-31 23:00:00+00:00'
+>>> # roundDown=True is default and implied
+>>> datemath('2016-01-01T16:20:00||/d')
+datetime.datetime(2016, 1, 1, 0, 0, tzinfo=tzutc())
+>>> # Using the roundDown option
+>>> datemath('2016-01-01T16:20:00||/d', roundDown=False)
+datetime.datetime(2016, 1, 1, 23, 59, 59, 999999, tzinfo=tzutc())
+```
+
+Or you can use the `dm` function and set its `type` to `datetime`:
 ```python
 from datemath import dm
 >>> dm('now', type='datetime')
@@ -129,21 +135,7 @@ datetime.datetime(2016, 1, 22, 22, 58, 28, 338060, tzinfo=tzutc())
 datetime.datetime(2016, 1, 24, 22, 57, 45, 394470, tzinfo=tzutc())
 ```
 
-Or you can just import the `datemath` module, this will always give us a native `datetime` object
-
-```python
->>> from datemath import datemath
->>>
->>> datemath('2016-01-01T16:20:00||/d', roundDown=False)
-datetime.datetime(2016, 1, 1, 23, 59, 59, 999999, tzinfo=tzutc())
->>>
->>>
->>> # roundDown=True is default and implied
->>> datemath('2016-01-01T16:20:00||/d')
-datetime.datetime(2016, 1, 1, 0, 0, tzinfo=tzutc())
-```
-
-If you want a Epoch timestamp back instead, we can do that.  
+If you want a Epoch timestamp back instead, we can do that too.  
 
 ```python
 >>> dm('now+2d-1m', type='timestamp')
@@ -186,6 +178,12 @@ Note - currently timestrings with a timezone offset and the usage of the ```tz``
 >>> # Note, timestrings with TZ offsets will be returned as the timezone of the offset in the string even if the "tz" option is used. 
 >>> dm('2016-01-01T00:00:00-05:00', tz='US/Central')
 <Arrow [2016-01-01T00:00:00-05:00]>
+```
+
+## Install
+
+```python
+pip install python-datemath
 ```
 
 ## Debugging
