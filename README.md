@@ -20,7 +20,7 @@ Date Math is the short hand arithmetic to find relative time to fixed moments in
 >
 > Note, when doing range type searches, and the upper value is inclusive, the rounding will properly be rounded to the ceiling instead of flooring it.
 
-## Unit Maps
+### Unit Maps
 
 The "unit maps" here define the shorthand sytax for the dates/timeframes we are working with:
 ```yaml
@@ -34,7 +34,7 @@ s or S      =   'second'
 now         =    <current_time_and_date>
 ```
 
-## Examples
+### Examples
 
 Here are some examples of using date math to find dates both in the past and in the future
 
