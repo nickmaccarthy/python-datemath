@@ -19,3 +19,5 @@ jobs:
         run: python3 tests.py 
       - name: verify type hints
         run: mypy datemath
+      - name: verify package install
+        run: python3 setup.py install
