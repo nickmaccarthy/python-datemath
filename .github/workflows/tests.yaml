@@ -21,3 +21,5 @@ jobs:
         run: mypy datemath
       - name: verify package install
         run: python3 setup.py install --user
+      - name: verify we can import
+        run: python3 -c "from datemath import datemath; print(datemath('now-1d'))"
