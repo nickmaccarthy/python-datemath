@@ -144,7 +144,7 @@ If you want a Epoch timestamp back instead, we can do that too.
 
 ## What timezone are my objects in?
 
-By default all object returned by datemath are in UTC.  
+By default all objects returned by datemath are in UTC.  
 
 If you want them them back in a different timezone, just pass along the ```tz``` argument.  Timezone list can be found here: [https://gist.github.com/pamelafox/986163](https://gist.github.com/pamelafox/986163)
 
