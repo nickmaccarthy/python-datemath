@@ -1,20 +1,22 @@
 # !/usr/bin/python
 # coding=utf-8
 
+import unittest
 
-import unittest2 as unittest
 import arrow
 from datetime import datetime as pydatetime
 from datetime import timedelta
 from datemath import dm, datemath
 from datemath.helpers import DateMathException as DateMathException
 from dateutil import tz
+from freezegun import freeze_time
+import pytz
 
 iso8601 = 'YYYY-MM-DDTHH:mm:ssZZ'
 class TestDM(unittest.TestCase):
     
 
-    def testParse(self):
+    def testBasic(self):
         # Make sure our helpers return the correct objects
         self.assertIsInstance(datemath('now'), pydatetime)
         self.assertIsInstance(dm('now'), arrow.arrow.Arrow)
@@ -24,6 +26,8 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('2016-01-02').format(iso8601), '2016-01-02T00:00:00+00:00')
         self.assertEqual(dm('2016-01-02 01:00:00').format(iso8601), '2016-01-02T01:00:00+00:00')
 
+
+    def testRounding(self):
         # Rounding Tests
         self.assertEqual(dm('2016-01-01||/d').format('YYYY-MM-DDTHH:mm:ssZZ'), '2016-01-01T00:00:00+00:00')
         self.assertEqual(dm('2014-11-18||/y').format('YYYY-MM-DDTHH:mm:ssZZ'), '2014-01-01T00:00:00+00:00')
@@ -38,13 +42,25 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('2016-01-01||/d', roundDown=False).format('YYYY-MM-DDTHH:mm:ssZZ'), '2016-01-01T23:59:59+00:00')
         self.assertEqual(dm('2014-11-18||/y', roundDown=False).format('YYYY-MM-DDTHH:mm:ssZZ'), '2014-12-31T23:59:59+00:00')
 
+    def testTimezone(self):
         # Timezone Tests
-        self.assertEqual(dm('now', tz='US/Pacific').format(iso8601), arrow.utcnow().to('US/Pacific').format(iso8601))
-        self.assertEqual(dm('2017-09-22 10:20:00', tz='US/Pacific').datetime, pydatetime(2017, 9, 22, 10, 20, 00, tzinfo=tz.gettz('US/Pacific')))
-        self.assertEqual(dm('2016-01-01', tz='UTC'), arrow.get('2016-01-01').to('UTC'))
-        self.assertEqual(dm('2016-01-01', tz='US/Eastern'), pydatetime(2016, 1, 1, tzinfo=tz.gettz('US/Eastern')))
-        self.assertEqual(datemath('2016-01-01T01:00:00', tz='US/Central'), pydatetime(2016, 1, 1, 1, 0, 0, tzinfo=tz.gettz('US/Central')))
-        self.assertEqual(datemath('2016-01-01T02:00:00', tz='US/Eastern'), pydatetime(2016, 1, 1, 2, tzinfo=tz.gettz('US/Eastern')))
+        with freeze_time(datemath('now/d', tz='US/Pacific')):
+            self.assertEqual(datemath('now/d', tz='US/Pacific'), pydatetime.now(tz=pytz.timezone("US/Pacific")))
+
+        with freeze_time(pydatetime(2017, 9, 22, 10, 20, 00, tzinfo=tz.gettz('US/Pacific'))):
+            self.assertEqual(dm('2017-09-22 10:20:00', tz='US/Pacific').datetime, pydatetime.now(tz=pytz.timezone("US/Pacific")))
+        
+        with freeze_time(datemath('2016-01-01T00:00:00', tz='UTC')):
+            self.assertEqual(dm('2016-01-01', tz='UTC'), arrow.get('2016-01-01').to('UTC'))
+
+        with freeze_time(datemath('2016-01-01', tz='US/Eastern')):
+            self.assertEqual(dm('2016-01-01', tz='US/Eastern'), pydatetime(2016, 1, 1, tzinfo=tz.gettz('US/Eastern')))
+
+        with freeze_time(datemath('2016-01-01T01:00:00', tz='US/Central')):
+            self.assertEqual(datemath('2016-01-01T01:00:00', tz='US/Central'), pydatetime(2016, 1, 1, 1, 0, 0, tzinfo=tz.gettz('US/Central')))
+
+        with freeze_time(datemath('2016-01-01T02:00:00', tz='US/Eastern')):
+            self.assertEqual(datemath('2016-01-01T02:00:00', tz='US/Eastern'), pydatetime(2016, 1, 1, 2, tzinfo=tz.gettz('US/Eastern')))
         
         # TZ offset inside of date string
         self.assertEqual(datemath('2016-01-01T16:20:00.5+12:00'), pydatetime(2016, 1, 1, 16, 20, 0, 500000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
@@ -58,7 +74,10 @@ class TestDM(unittest.TestCase):
         # If a TZ offset is in a datetime string, and there is a tz param used, the TZ offset will take precedence for the returned timeobj
         self.assertEqual(datemath('2016-01-01T16:20:00.6+12:00||+2d+1h', tz='US/Eastern'), pydatetime(2016, 1, 3, 17, 20, 0, 600000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
 
+
+    def testRelativeFormats(self):
         # relitive formats
+        
         # addition
         self.assertEqual(dm('+1s').format(iso8601), arrow.utcnow().shift(seconds=+1).format(iso8601))
         self.assertEqual(dm('+1m').format(iso8601), arrow.utcnow().shift(minutes=+1).format(iso8601))
@@ -115,6 +134,8 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('now+10d/d').format(iso8601), arrow.utcnow().shift(days=10).floor('day').format(iso8601))
         self.assertEqual(dm('now-29d/d').format(iso8601), arrow.utcnow().shift(days=-29).floor('day').format(iso8601))
 
+
+    def testFuture(self):
         # future
         self.assertEqual(dm('+1s').format(iso8601), arrow.utcnow().shift(seconds=+1).format(iso8601))
         self.assertEqual(dm('+1s+2m+3h').format(iso8601), arrow.utcnow().shift(seconds=+1, minutes=+2, hours=+3).format(iso8601))
@@ -134,7 +155,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('-3w-2d-22h-36s').format(iso8601), arrow.utcnow().shift(weeks=-3, days=-2, hours=-22, seconds=-36).format(iso8601))
         self.assertEqual(dm('-6y-3w-2d-22h-36s').format(iso8601), arrow.utcnow().shift(years=-6, weeks=-3, days=-2, hours=-22, seconds=-36).format(iso8601))
 
-       
+    def testOther(self):
         import datetime
         delta = datetime.timedelta(seconds=1) 
         # datetime objects
@@ -157,6 +178,8 @@ class TestDM(unittest.TestCase):
         except DateMathException as e:
             self.assertTrue('Unable to parse epoch timestamps in millis' in str(e))
 
+
+    def testExceptions(self):
         # Catch invalid timeunits
         self.assertRaises(DateMathException, dm, '+1,')
         self.assertRaises(DateMathException, dm, '+1.')
@@ -176,6 +199,7 @@ class TestDM(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    print(datemath('now/d', tz='US/Pacific'))
     unittest.main()
         
 
