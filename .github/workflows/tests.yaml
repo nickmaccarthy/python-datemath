@@ -18,7 +18,7 @@ jobs:
       - name: run the tests
         run: python3 tests.py 
       - name: verify type hints
-        run: mypy datemath
+        run: mypy . --strict
       - name: verify package install
         run: python3 setup.py install --user
       - name: verify we can import

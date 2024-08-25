@@ -16,7 +16,7 @@ iso8601 = 'YYYY-MM-DDTHH:mm:ssZZ'
 class TestDM(unittest.TestCase):
     
 
-    def testBasic(self):
+    def testBasic(self) -> None:
         # Make sure our helpers return the correct objects
         self.assertIsInstance(datemath('now'), pydatetime)
         self.assertIsInstance(dm('now'), arrow.arrow.Arrow)
@@ -27,7 +27,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('2016-01-02 01:00:00').format(iso8601), '2016-01-02T01:00:00+00:00')
 
 
-    def testRounding(self):
+    def testRounding(self) -> None:
         # Rounding Tests
         self.assertEqual(dm('2016-01-01||/d').format('YYYY-MM-DDTHH:mm:ssZZ'), '2016-01-01T00:00:00+00:00')
         self.assertEqual(dm('2014-11-18||/y').format('YYYY-MM-DDTHH:mm:ssZZ'), '2014-01-01T00:00:00+00:00')
@@ -42,7 +42,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('2016-01-01||/d', roundDown=False).format('YYYY-MM-DDTHH:mm:ssZZ'), '2016-01-01T23:59:59+00:00')
         self.assertEqual(dm('2014-11-18||/y', roundDown=False).format('YYYY-MM-DDTHH:mm:ssZZ'), '2014-12-31T23:59:59+00:00')
 
-    def testTimezone(self):
+    def testTimezone(self) -> None:
         # Timezone Tests
         with freeze_time(datemath('now/d', tz='US/Pacific')):
             self.assertEqual(datemath('now/d', tz='US/Pacific'), pydatetime.now(tz=pytz.timezone("US/Pacific")))
@@ -75,7 +75,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(datemath('2016-01-01T16:20:00.6+12:00||+2d+1h', tz='US/Eastern'), pydatetime(2016, 1, 3, 17, 20, 0, 600000, tzinfo=tz.tzoffset(None, timedelta(hours=12))))
 
 
-    def testRelativeFormats(self):
+    def testRelativeFormats(self) -> None:
         # relitive formats
         
         # addition
@@ -135,7 +135,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('now-29d/d').format(iso8601), arrow.utcnow().shift(days=-29).floor('day').format(iso8601))
 
 
-    def testFuture(self):
+    def testFuture(self) -> None:
         # future
         self.assertEqual(dm('+1s').format(iso8601), arrow.utcnow().shift(seconds=+1).format(iso8601))
         self.assertEqual(dm('+1s+2m+3h').format(iso8601), arrow.utcnow().shift(seconds=+1, minutes=+2, hours=+3).format(iso8601))
@@ -155,7 +155,7 @@ class TestDM(unittest.TestCase):
         self.assertEqual(dm('-3w-2d-22h-36s').format(iso8601), arrow.utcnow().shift(weeks=-3, days=-2, hours=-22, seconds=-36).format(iso8601))
         self.assertEqual(dm('-6y-3w-2d-22h-36s').format(iso8601), arrow.utcnow().shift(years=-6, weeks=-3, days=-2, hours=-22, seconds=-36).format(iso8601))
 
-    def testOther(self):
+    def testOther(self) -> None:
         import datetime
         delta = datetime.timedelta(seconds=1) 
         # datetime objects
@@ -179,7 +179,7 @@ class TestDM(unittest.TestCase):
             self.assertTrue('Unable to parse epoch timestamps in millis' in str(e))
 
 
-    def testExceptions(self):
+    def testExceptions(self) -> None:
         # Catch invalid timeunits
         self.assertRaises(DateMathException, dm, '+1,')
         self.assertRaises(DateMathException, dm, '+1.')
