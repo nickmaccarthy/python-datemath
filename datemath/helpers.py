@@ -38,16 +38,14 @@ now/d+7d+12h                2016-01-08T12:00:00+00:00
 
 '''
 
+from __future__ import annotations
+
+import os
+import re
+from typing import TypedDict, cast
+
 import arrow
 from arrow import Arrow
-from datetime import datetime
-import re
-import os
-from dateutil import tz
-import dateutil
-import sys 
-from pprint import pprint
-from typing import Any, Optional
 
 debug = True if os.environ.get('DATEMATH_DEBUG') else False 
 
@@ -78,7 +76,13 @@ def unitMap(c: str) -> str:
     else:
         raise DateMathException("Not a valid timeunit: {0}".format(c))
 
-def parse(expression: str, now: Any = None, tz: str = 'UTC', type: Any = None, roundDown: bool = True) -> Arrow:
+class ParseParams(TypedDict, total=False):
+    now: Arrow | None
+    tz: str
+    type: str | None
+    roundDown: bool
+
+def parse(expression: str | int, now: Arrow | None = None, tz: str = 'UTC', type: str | None = None, roundDown: bool = True) -> Arrow:
     '''
         the main meat and potatoes of this this whole thing
         takes our datemath expression and does our date math
@@ -101,15 +105,16 @@ def parse(expression: str, now: Any = None, tz: str = 'UTC', type: Any = None, r
         if debug: print("parse() - will now convert tz to {0}".format(tz))
         now = now.to(tz)
 
+    expression = str(expression)
     if expression == 'now':
         if debug: print("parse() - Now, no dm: {0}".format(now))
         if type:
-            return getattr(now, type)
+            return cast(Arrow, getattr(now, type))
         else:
             return now
-    elif re.match(r'\d{10,}', str(expression)):
+    elif re.match(r'\d{10,}', expression):
         if debug: print('parse() - found an epoch timestamp')
-        if len(str(expression)) == 13:
+        if len(expression) == 13:
             raise DateMathException('Unable to parse epoch timestamps in millis, please convert to the nearest second to continue - i.e. 1451610061 / 1000')
         ts = arrow.get(int(expression))
         ts = ts.replace(tzinfo=tz)
@@ -142,7 +147,7 @@ def parse(expression: str, now: Any = None, tz: str = 'UTC', type: Any = None, r
     rettime = evaluate(math, time, tz, roundDown)
 
     if type:
-        return getattr(rettime, type)
+        return cast(Arrow, getattr(rettime, type))
     else:
         return rettime
         
@@ -158,7 +163,7 @@ def parseTime(timestamp: str, timezone: str = 'UTC') -> Arrow:
         if debug: print("parseTime() - timezone that came in = {}".format(timezone))
 
         if ts.tzinfo:
-            import dateutil
+            import dateutil.tz
             if isinstance(ts.tzinfo, dateutil.tz.tz.tzoffset):
             # this means our TZ probably came in via our datetime string
             # then lets set our tz to whatever tzoffset is
@@ -175,14 +180,14 @@ def parseTime(timestamp: str, timezone: str = 'UTC') -> Arrow:
         if debug: print('parseTime() - Doesnt look like we have a valid timestamp, raise an exception.  timestamp={}'.format(timestamp))
         raise DateMathException('Valid length timestamp not provide, you gave me a timestamp of "{}", but I need something that has a len() >= 4'.format(timestamp))
           
-def roundDate(now: Any, unit: str, tz: str = 'UTC', roundDown: bool = True) -> Arrow:
+def roundDate(now: Arrow, unit: str, tz: str = 'UTC', roundDown: bool = True) -> Arrow:
     '''
         rounds our date object
     '''
     if roundDown:
-        now = now.floor(unit)
+        now = now.floor(unit)  # type: ignore[arg-type]
     else:
-        now = now.ceil(unit)
+        now = now.ceil(unit) # type: ignore[arg-type]
     if debug: print("roundDate() Now: {0}".format(now))
     return now
 

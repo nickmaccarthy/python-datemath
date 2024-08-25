@@ -1,4 +1,4 @@
-import unittest2 as unittest
+import unittest
 import arrow
 from datetime import datetime as pydatetime
 from datemath import dm 
@@ -8,7 +8,7 @@ from dateutil import tz
 iso8601 = 'YYYY-MM-DDTHH:mm:ssZZ'
 class TestDM(unittest.TestCase):
     
-    def testParse(self):
+    def testParse(self) -> None:
 
         # Baisc dates
         self.assertEqual(dm('2016.01.02').format(iso8601), '2016-01-02T00:00:00-00:00')
