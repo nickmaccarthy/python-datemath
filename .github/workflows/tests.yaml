@@ -18,7 +18,7 @@ jobs:
       - name: run the tests
         run: python3 tests.py 
       - name: verify type hints
-        run: mypy . --strict
+        run: mypy . --strict --enable-incomplete-feature=Unpack --install-types
       - name: verify package install
         run: python3 setup.py install --user
       - name: verify we can import
