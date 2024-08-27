@@ -7,7 +7,7 @@ chardet==3.0.4
 clint==0.5.1
 docutils==0.15.2
 freezegun==1.2.2
-idna==2.7
+idna==3.7
 linecache2==1.0.0
 mypy==1.7.1
 packaging==16.8
