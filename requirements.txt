@@ -20,7 +20,7 @@ readme-renderer==24.0
 requests==2.20.0
 requests-toolbelt==0.9.1
 six==1.10.0
-tqdm==4.36.1
+tqdm==4.66.3
 traceback2==1.4.0
 twine==2.0.0
 types-python-dateutil==2.8.19.20240311
