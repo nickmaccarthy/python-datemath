@@ -31,6 +31,9 @@ setup(
 
     description='A python module to emulate the date math used in SOLR and Elasticsearch',
 
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+
     # The project's main homepage.
     url='https://github.com/nickmaccarthy/python-datemath',
 
@@ -48,7 +51,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
