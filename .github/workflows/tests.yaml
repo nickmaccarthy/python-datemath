@@ -14,7 +14,7 @@ jobs:
       - name: print python version
         run:  python3 --version
       - name: install requirements
-        run: pip3 install -r requirements-3.txt
+        run: pip3 install -r requirements.txt
       - name: run the tests
         run: python3 tests.py 
       - name: verify type hints

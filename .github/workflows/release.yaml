@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install requirements for python3
-        run: pip3 install -r requirements-3.txt
+        run: pip3 install -r requirements.txt
       - name: package and upload python3
         env:
           TWINE_USERNAME: __token__

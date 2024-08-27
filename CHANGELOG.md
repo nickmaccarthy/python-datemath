@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.2] - 2024-08-27
+### added
+- Feat: Complete typing with strict type-checking [#43](https://github.com/nickmaccarthy/python-datemath/pull/43) Thank you @Avasam!
+
+### fixed
+- Fix: removed legacy-tests.py since we no longer support python2.x
+- Fix: removed requirements-2.txt from manifest due to deprecation of python2 support
+- Fix: renamed requirements-3.txt to requirements.txt to support python3 going forward
+    - also modifed to `release.yaml` and `tests.yaml` workflows to support this
+- Fix: long_description should now show up in pypi https://github.com/nickmaccarthy/python-datemath/issues/33
+
 ## [3.0.1] - 2024-08-23 
 ### fixed
 - Fix: Race condition in timezone tests: https://github.com/nickmaccarthy/python-datemath/issues/36
@@ -41,14 +52,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### fixed
 - FIX: [Issue #21](https://github.com/nickmaccarthy/python-datemath/issues/21) - Fixed an issue where if timezone offset was in a datetime string (ISO8601), the timezone of the returned datemath object would be UTC and not the timezone as specified in the datetime string.
 
-## 1.5.1 (2020-03-25)
+## [1.5.1] -  2020-03-25
 
 ### fixed
 - FIX: [Issue #15](https://github.com/nickmaccarthy/python-datemath/issues/15) - Fixed issue with parser finding invalid timeunits and throwing correct errors
 ### added
 - Feat: [Issue #16](https://github.com/nickmaccarthy/python-datemath/issues/16) - Added support for parser to accecpt a epoch/unix timestamp but throw an error on epoch milli's since arrow can't support that.  
 
-## 1.5.0 - 2019-11-09
+## [1.5.0] - 2019-11-09
 
 ### fixed
 - [Issue #12](https://github.com/nickmaccarthy/python-datemath/issues/12) - missing VERSION.txt.  Added MANIFEST.in for sdist build
