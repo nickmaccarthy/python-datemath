@@ -2,4 +2,4 @@ include VERSION.txt
 include README.md
 include CHANGELOG.md
 include LICENSE
-include requirements-3.txt
+include requirements.txt
