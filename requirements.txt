@@ -11,12 +11,12 @@ idna==3.7
 linecache2==1.0.0
 mypy==1.7.1
 packaging==16.8
-pkginfo==1.4.2
+pkginfo>=1.8.1
 Pygments==2.15.0
 pyparsing==2.2.0
 python-dateutil==2.8.2
 pytz==2023.3
-readme-renderer==24.0
+readme-renderer>=35.0
 requests==2.32.2
 requests-toolbelt==0.9.1
 six==1.10.0
