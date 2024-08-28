@@ -14,8 +14,7 @@ here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-    long_description_content_type = "text/markdown"
+    long_description_from_readme = f.read()
 
 with open(path.join(here, 'VERSION.txt'), encoding='utf-8') as fv:
     version = fv.read()
@@ -31,8 +30,9 @@ setup(
 
     description='A python module to emulate the date math used in SOLR and Elasticsearch',
 
-    long_description=long_description,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
+    long_description=long_description_from_readme,
+
 
     # The project's main homepage.
     url='https://github.com/nickmaccarthy/python-datemath',
