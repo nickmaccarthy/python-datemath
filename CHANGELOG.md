@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### chore
 - Chore: bumped modules in requirements.txt
+
 ### fixed
 - Fix: removed legacy-tests.py since we no longer support python2.x
 - Fix: removed requirements-2.txt from manifest due to deprecation of python2 support
