@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ._version import __version__
 
 from datetime import datetime
 from typing import TYPE_CHECKING
@@ -17,3 +18,12 @@ def dm(expr: str | int, **kwargs: Unpack[ParseParams]) -> Arrow:
 def datemath(expr: str | int, **kwargs: Unpack[ParseParams]) -> datetime:
     ''' does our datemath and returns a datetime object '''
     return parse(expr, **kwargs).datetime
+
+
+__all__ = [
+    'dm', 
+    'datemath', 
+    'parse', 
+    'DateMathException', 
+    '__version__',
+]
