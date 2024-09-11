@@ -8,13 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.0.2] - 2024-08-27
 ### added
 - Feat: Complete typing with strict type-checking [#43](https://github.com/nickmaccarthy/python-datemath/pull/43) Thank you @Avasam!
+- Feat: Added `__version__` to to verify the version of the module.  
+- Feat: Addded Dockerfile and relevant verify.py to help with local development and testing
 
+### chore
+- Chore: bumped modules in requirements.txt
 ### fixed
 - Fix: removed legacy-tests.py since we no longer support python2.x
 - Fix: removed requirements-2.txt from manifest due to deprecation of python2 support
 - Fix: renamed requirements-3.txt to requirements.txt to support python3 going forward
     - also modifed to `release.yaml` and `tests.yaml` workflows to support this
 - Fix: long_description should now show up in pypi https://github.com/nickmaccarthy/python-datemath/issues/33
+- Fix: move more pypi configurations to setup.cfg and out of setup.py
+
 
 ## [3.0.1] - 2024-08-23 
 ### fixed
