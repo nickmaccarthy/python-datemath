@@ -21,7 +21,7 @@ more-itertools==10.4.0
 mypy==1.7.1
 mypy-extensions==1.0.0
 nh3==0.2.18
-packaging==16.8
+packaging==24.1
 pkginfo==1.10.0
 Pygments==2.15.0
 pyparsing==2.2.0
@@ -32,6 +32,7 @@ requests==2.32.2
 requests-toolbelt==0.9.1
 rfc3986==2.0.0
 rich==13.8.0
+setuptools==74.1.2
 six==1.16.0
 tqdm==4.66.3
 traceback2==1.4.0
