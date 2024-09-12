@@ -8,8 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.0.2] - 2024-09-11
 ### added
 - Feat: Complete typing with strict type-checking [#43](https://github.com/nickmaccarthy/python-datemath/pull/43) Thank you @Avasam!
-- Feat: Added `__version__` to to verify the version of the module.  
-- Feat: Addded Dockerfile and relevant verify.py to help with local development and testing
+- Feat: Added `__version__` to verify the version of the module.  
+- Feat: Added Dockerfile and relevant verify.py to help with local development and testing
 
 ### chore
 - Chore: bumped modules in requirements.txt
@@ -33,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix: Bump certifi to latest: https://github.com/nickmaccarthy/python-datemath/pull/38
 ### added 
 - Feat: Typehint support: https://github.com/nickmaccarthy/python-datemath/issues/31
-- Feat: Revamed CHANGELOG.md to keepachangelog.org format
+- Feat: Renamed CHANGELOG.md to keepachangelog.org format
 
 ### todo
 - todo: Fix pypi: https://github.com/nickmaccarthy/python-datemath/issues/33
