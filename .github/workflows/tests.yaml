@@ -23,3 +23,5 @@ jobs:
         run: python3 setup.py install --user
       - name: verify we can import
         run: python3 -c "from datemath import datemath; print(datemath('now-1d'))"
+      - name: verify our version 
+        run: python3 -c "import datemath; print(datemath.__version__)" 
