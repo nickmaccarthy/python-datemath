@@ -17,7 +17,7 @@ here = path.abspath(path.dirname(__file__))
 version = {}
 with open(os.path.join(here, 'datemath', '_version.py')) as f:
     exec(f.read(), version)
-    VERSION = version['__version__']
+    VERSION = str(version['__version__'])
 
 
 setup(
