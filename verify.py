@@ -3,10 +3,6 @@ from datemath import datemath, __version__
 
 
 print(f'datemath version is {__version__}')
-with open('VERSION.txt', 'r') as f:
-    version = f.read().strip()
-
-assert __version__ == version
 
 
 print(f'Now is: {datemath("now")}')

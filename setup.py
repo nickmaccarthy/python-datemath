@@ -8,16 +8,17 @@ https://github.com/pypa/sampleproject
 from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
+import os
 from os import path
+from typing import Dict
 
 here = path.abspath(path.dirname(__file__))
 
-# Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description_from_readme = f.read()
+version: Dict[str, str] = {}
+with open(os.path.join(here, 'datemath', '_version.py')) as f:
+    exec(f.read(), version)
+    VERSION = version['__version__']
 
-with open(path.join(here, 'VERSION.txt'), encoding='utf-8') as fv:
-    version = fv.read()
 
 setup(
     name='python-datemath',
@@ -25,8 +26,8 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version=version,
-    download_url = 'https://github.com/nickmaccarthy/python-datemath/tarball/{0}'.format(version),
+    version=VERSION,
+    download_url = 'https://github.com/nickmaccarthy/python-datemath/tarball/{0}'.format(VERSION),
 
     # The project's main homepage.
     url='https://github.com/nickmaccarthy/python-datemath',
