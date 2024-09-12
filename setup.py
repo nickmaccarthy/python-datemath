@@ -10,14 +10,14 @@ from setuptools import setup, find_packages
 from codecs import open
 import os
 from os import path
+from typing import Dict
 
 here = path.abspath(path.dirname(__file__))
 
-
-version = {}
+version: Dict[str, str] = {}
 with open(os.path.join(here, 'datemath', '_version.py')) as f:
     exec(f.read(), version)
-    VERSION = str(version['__version__'])
+    VERSION = version['__version__']
 
 
 setup(
