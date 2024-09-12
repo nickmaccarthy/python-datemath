@@ -4,7 +4,7 @@
 
 source env/bin/activate
 pip2.7 install -r requirements-2.txt
-pip3.7 install -r requirements-3.txt
+pip3.7 install -r requirements.txt
 
 echo "Removing any previous build dir..."
 rm -rf build
