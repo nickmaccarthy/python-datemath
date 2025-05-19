@@ -32,7 +32,7 @@ requests==2.32.2
 requests-toolbelt==0.9.1
 rfc3986==2.0.0
 rich==13.8.0
-setuptools==74.1.2
+setuptools==78.1.1
 six==1.16.0
 tqdm==4.66.3
 traceback2==1.4.0
