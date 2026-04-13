@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### changed
+- Modernized packaging and developer workflow around `pyproject.toml`, `uv`, `pytest`, `ruff`, and `mypy`
+- Updated CI and release automation to use the new build and verification flow
+- Replaced the legacy single-file `unittest` suite with a `pytest` test layout while preserving the existing behavior coverage
+- Updated the Docker image to a current Python base image and removed the old `requirements.txt` and `setup.py` install path
+
+### compatibility
+- Support remains Python `3.10+`
+- During the modernization pass, the floor was briefly evaluated at `3.11+`, but it was set to `3.10+` instead because the library and tooling still work cleanly there and it keeps a broader install base without adding meaningful maintenance overhead
+- Previous published support before this change was Python `3.8+`; this update intentionally drops `3.8` and `3.9` to align the project with a more current 2026 baseline while keeping `3.10` available
+- `zoneinfo` is now used in tests instead of `pytz`, but this does not require raising the runtime floor beyond Python `3.10`
+
 ## [3.0.3] - 2024-09-12
 Please use 3.0.3 going forward!   3.0.2 has a breaking bug.
 

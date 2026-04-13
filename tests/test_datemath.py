@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from datetime import UTC, timedelta, timezone
 from datetime import datetime as pydatetime
+from datetime import timedelta, timezone
 from zoneinfo import ZoneInfo
 
 import arrow
@@ -104,7 +104,7 @@ class TestDM:
             20,
             0,
             500000,
-            tzinfo=UTC,
+            tzinfo=timezone.utc,
         )
 
         assert datemath("2016-01-01T16:20:00.5+12:00||+1d") == pydatetime(

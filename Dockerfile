@@ -1,20 +1,20 @@
-# Use an official Python runtime as the base image
-FROM python:3.9
+FROM python:3.14-slim
 
-# Set the working directory in the container
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
 WORKDIR /app
 
-# Copy the contents of your project to the working directory
-COPY . .
+COPY pyproject.toml uv.lock README.md LICENSE ./
+COPY datemath ./datemath
+COPY tests ./tests
+COPY verify.py ./
 
-# Install the required dependencies
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip \
+    && pip install uv \
+    && uv sync --group dev --frozen
 
-# Run setup.py to install your module
-RUN python3 setup.py install
+RUN uv run pytest
 
-# Run your tests to ensure everything works as expected
-RUN python3 -m unittest discover
-
-# Set the entrypoint command to run your module
-CMD ["python3", "verify.py"]
+CMD ["uv", "run", "python", "verify.py"]
