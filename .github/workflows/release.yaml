@@ -1,20 +1,29 @@
 name: Release Packages
+
 on:
   release:
-    types: 
-      - released
+    types:
+      - published
+
 jobs:
-  release-to-pypi:
-    runs-on: ubuntu-20.04
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+
     steps:
-      - uses: actions/checkout@v2
-      - name: install requirements for python3
-        run: pip3 install -r requirements.txt
-      - name: package and upload python3
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-          PYTHON_DATEMATH_VERSION: ${{ github.event.release.tag_name }}
-        run: |
-          python3 setup.py sdist bdist_wheel
-          twine upload dist/*
+      - uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+
+      - name: Build artifacts
+        run: uv build
+
+      - name: Validate distribution metadata
+        run: uv run --with twine twine check dist/*
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

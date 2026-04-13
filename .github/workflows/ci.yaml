@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --group dev
+
+      - name: Run tests
+        run: uv run pytest
+
+      - name: Lint
+        run: uv run ruff check .
+
+      - name: Type-check
+        run: uv run mypy
+
+      - name: Build distribution artifacts
+        run: uv build
+
+      - name: Validate built package
+        run: uv run twine check dist/*
+
+      - name: Verify install from wheel
+        run: |
+          uv venv .venv-install
+          uv pip install --python .venv-install/bin/python dist/*.whl
+          .venv-install/bin/python -c "from datemath import datemath; print(datemath('now-1d'))"
+          .venv-install/bin/python -c "import datemath; print(datemath.__version__)"
