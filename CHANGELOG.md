@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- version list -->
 
+## v3.1.1 (2026-04-13)
+
+### Bug Fixes
+
+- Enable changelog updates for semantic release
+  ([`cec6ada`](https://github.com/nickmaccarthy/python-datemath/commit/cec6adafb91ea6a358af5708d58b5adc87090098))
+
+
 ## [3.1.0] - 2026-04-13
 ### changed
 - Modernized packaging and developer workflow around `pyproject.toml`, `uv`, `pytest`, `ruff`, and `mypy`
