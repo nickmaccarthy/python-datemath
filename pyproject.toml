@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "python-datemath"
+dynamic = ["version"]
+description = "A Python module that emulates the date math syntax used by Solr and Elasticsearch."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Nick MacCarthy", email = "nickmaccarthy@gmail.com" },
+]
+keywords = ["date", "datemath", "elasticsearch", "solr", "time"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+  "arrow>=1.3.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/nickmaccarthy/python-datemath"
+Repository = "https://github.com/nickmaccarthy/python-datemath"
+Changelog = "https://github.com/nickmaccarthy/python-datemath/blob/master/CHANGELOG.md"
+Issues = "https://github.com/nickmaccarthy/python-datemath/issues"
+
+[dependency-groups]
+dev = [
+  "build>=1.2.2",
+  "freezegun>=1.5.1",
+  "mypy>=1.18.0",
+  "pytest>=8.4.0",
+  "ruff>=0.12.0",
+  "twine>=6.1.0",
+]
+
+[tool.hatch.version]
+path = "datemath/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["datemath"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/.github",
+  "/CHANGELOG.md",
+  "/LICENSE",
+  "/README.md",
+  "/datemath",
+  "/pyproject.toml",
+  "/tests",
+  "/verify.py",
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["datemath", "tests"]

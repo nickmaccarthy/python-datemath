@@ -2,7 +2,7 @@
 
 ## What?
 
-A date math (aka datemath) parser compatiable with the elasticsearch "date math" format
+A date math (aka datemath) parser compatible with the Elasticsearch date math format.
 
 ## What is "date math"?
 
@@ -186,6 +186,28 @@ Note - currently timestrings with a timezone offset and the usage of the ```tz``
 pip install python-datemath
 ```
 
+Python `3.10+` is supported.
+
+## Development
+
+This project now uses [`pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/) for packaging and [`uv`](https://docs.astral.sh/uv/) for local workflows.
+
+```bash
+uv sync --group dev
+uv run pytest
+uv run ruff check .
+uv run mypy
+uv build
+```
+
+If you prefer `make`, the common tasks are wrapped there too:
+
+```bash
+make sync
+make check
+make build
+```
+
 ## Debugging
 
 If you would like more verbose output to debug the process of what datemath is doing, simply set `export DATEMATH_DEBUG=true` in your shell then run some datemath tests.  To stop debugging, run `unset DATEMATH_DEBUG`.
@@ -195,4 +217,3 @@ If you would like more verbose output to debug the process of what datemath is d
 See CHANGELOG.md
 
 # Happy date math'ing!
-

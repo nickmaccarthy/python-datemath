@@ -1,13 +1,29 @@
 
+PYTHON ?= 3.14
 
-tests:
-	python3 tests.py 
+.PHONY: sync test lint typecheck check build docker-build docker-run test-build
 
+sync:
+	uv sync --python $(PYTHON) --group dev
+
+test:
+	uv run pytest
+
+lint:
+	uv run ruff check .
+
+typecheck:
+	uv run mypy
+
+check: lint typecheck test
+
+build:
+	uv build
 
 docker-build:
 	docker build -t python-datemath .
 
 docker-run:
-	docker run --rm python-datemath 
+	docker run --rm python-datemath
 
 test-build: docker-build docker-run
