@@ -241,12 +241,20 @@ uv add python-datemath
 uv sync --group dev
 ```
 
+### Set up git hooks
+
+```bash
+uv run pre-commit install
+uv run pre-commit install --hook-type pre-push
+```
+
 ## Development
 
 This project uses [`pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/) for packaging and [`uv`](https://docs.astral.sh/uv/) for local workflows.
 
 ```bash
 uv sync --group dev
+uv run pre-commit run --all-files
 uv run pytest
 uv run ruff check .
 uv run mypy
@@ -259,6 +267,23 @@ If you prefer `make`, the common tasks are wrapped there too:
 make sync
 make check
 make build
+make precommit-install
+make precommit-run
+```
+
+## Release Process
+
+Releases now use `python-semantic-release` with configuration in `.releaserc.toml`.
+
+- Merge conventional commits like `feat: ...`, `fix: ...`, or `perf: ...` into `master`
+- The `Semantic Release` workflow calculates the next version, updates `datemath/_version.py`, updates `CHANGELOG.md`, tags the release, and creates the GitHub release
+- The existing publish workflow then builds and uploads the package to PyPI from that GitHub release
+
+Useful local commands:
+
+```bash
+uv run semantic-release -c .releaserc.toml version --print
+make release-check
 ```
 
 ## Debugging

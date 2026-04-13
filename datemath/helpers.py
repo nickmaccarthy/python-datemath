@@ -62,6 +62,7 @@ def unitMap(c: str) -> str:
     except KeyError as exc:
         raise DateMathException(f"Not a valid timeunit: {c}") from exc
 
+
 class ParseParams(TypedDict, total=False):
     now: Arrow | None
     tz: str
@@ -144,7 +145,7 @@ def parse(
     if type is not None:
         return cast(Arrow, getattr(rettime, type))
     return rettime
-        
+
 
 def parseTime(timestamp: str, timezone: str = "UTC") -> Arrow:
     """
@@ -225,7 +226,7 @@ def evaluate(expression: str, now: Arrow, timeZone: str = "UTC", roundDown: bool
         char = expression[i]
 
         if "/" in char:
-            next = str(expression[i+1])
+            next = str(expression[i + 1])
             i += 1
             now = roundDate(now, unitMap(next).rstrip("s"), timeZone, roundDown)
 
@@ -249,7 +250,7 @@ def evaluate(expression: str, now: Arrow, timeZone: str = "UTC", roundDown: bool
                     f"Invalid datematch: What I got was - re.match: {expression[i + 1 :]}, "
                     f"expression: {expression}, error: {e}"
                 ) from e
-    
+
             if char == "+":
                 val = float(val)
             else:
@@ -260,7 +261,7 @@ def evaluate(expression: str, now: Arrow, timeZone: str = "UTC", roundDown: bool
             raise DateMathException(
                 f"'{char}' is not a valid timeunit for expression: '{expression}'"
             )
-        
+
         i += 1
     if debug:
         print(f"evaluate() - Finished: {now}")

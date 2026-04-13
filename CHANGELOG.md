@@ -29,7 +29,7 @@ Please use 3.0.3 going forward!   3.0.2 has a breaking bug.
 ## [3.0.2] - 2024-09-11
 ### added
 - Feat: Complete typing with strict type-checking [#43](https://github.com/nickmaccarthy/python-datemath/pull/43) Thank you @Avasam!
-- Feat: Added `__version__` to verify the version of the module.  
+- Feat: Added `__version__` to verify the version of the module.
 - Feat: Added Dockerfile and relevant verify.py to help with local development and testing
 
 ### chore
@@ -44,15 +44,15 @@ Please use 3.0.3 going forward!   3.0.2 has a breaking bug.
 - Fix: move more pypi configurations to setup.cfg and out of setup.py
 
 
-## [3.0.1] - 2024-08-23 
+## [3.0.1] - 2024-08-23
 ### fixed
 - Fix: Race condition in timezone tests: https://github.com/nickmaccarthy/python-datemath/issues/36
 - Fix: Updated arrow version: https://github.com/nickmaccarthy/python-datemath/issues/32
-- Fix: mypy type hint checking in tests: https://github.com/nickmaccarthy/python-datemath/issues/31 
+- Fix: mypy type hint checking in tests: https://github.com/nickmaccarthy/python-datemath/issues/31
 - Fix: SyntaxWarning: invalid escape sequence in `re.match()`: https://github.com/nickmaccarthy/python-datemath/pull/39
 - Fix: Licence Classifier: https://github.com/nickmaccarthy/python-datemath/pull/34
 - Fix: Bump certifi to latest: https://github.com/nickmaccarthy/python-datemath/pull/38
-### added 
+### added
 - Feat: Typehint support: https://github.com/nickmaccarthy/python-datemath/issues/31
 - Feat: Renamed CHANGELOG.md to keepachangelog.org format
 
@@ -63,13 +63,13 @@ Please use 3.0.3 going forward!   3.0.2 has a breaking bug.
 - python 2.7 support. Python 3.8+ will only be supported going forward
 
 ## [1.5.5] - 2021-04-26
-### fixed 
+### fixed
 - fix: [Issue #28](https://github.com/nickmaccarthy/python-datemath/issues/28)
     * `datemath()` object now returns the expected `datetime` object instead of an `Arrow` object
     * added tests to catch invalid object types of helpers
 
 ## [1.5.4] - 2021-04-20
-### Unused 
+### Unused
 - skipped due to name conflict on pypi, all changes in this are from `1.5.3`
 
 ## [1.5.3] - 2021-04-16
@@ -85,7 +85,7 @@ Please use 3.0.3 going forward!   3.0.2 has a breaking bug.
 ### fixed
 - FIX: [Issue #15](https://github.com/nickmaccarthy/python-datemath/issues/15) - Fixed issue with parser finding invalid timeunits and throwing correct errors
 ### added
-- Feat: [Issue #16](https://github.com/nickmaccarthy/python-datemath/issues/16) - Added support for parser to accecpt a epoch/unix timestamp but throw an error on epoch milli's since arrow can't support that.  
+- Feat: [Issue #16](https://github.com/nickmaccarthy/python-datemath/issues/16) - Added support for parser to accecpt a epoch/unix timestamp but throw an error on epoch milli's since arrow can't support that.
 
 ## [1.5.0] - 2019-11-09
 
@@ -97,7 +97,7 @@ Please use 3.0.3 going forward!   3.0.2 has a breaking bug.
 
 ** PLEASE DO NOT USE THIS VERSION, use `1.5.0+` instead.  This may not compile on your system due to a missing VERSION.txt which was fixed in `1.5.0+` **
 
-### fixed 
+### fixed
 - [FIX] [Issue #9](https://github.com/nickmaccarthy/python-datemath/issues/9) && [Issue #8](https://github.com/nickmaccarthy/python-datemath/issues/8) - Fixing deprecated arrow `replace()` function with `shift()`.
 - [FIX] Arrow upgrade to `0.15.2` to fix the above mentioned issues
 - [FIX] Modifed `tests.py` to account for the timestamp change (tz is now `+0000`, instead of `-0000`)
@@ -114,7 +114,7 @@ Please use 3.0.3 going forward!   3.0.2 has a breaking bug.
 * skipped due to name conflict on pypi, all changes are in `1.4.9`
 
 ## [1.4.7] - 2017-11-10
-### fixed 
+### fixed
 - [FIX] Fixed timezone for date strings: [Issue #6](https://github.com/nickmaccarthy/python-datemath/issues/6)
 
 ## [1.4.5] - 2017-03-21
@@ -127,12 +127,12 @@ Please use 3.0.3 going forward!   3.0.2 has a breaking bug.
 <Arrow [2016-01-01T23:59:00+00:00]>
 >>> dm('now/d')
 <Arrow [2016-01-01T00:00:00+00:00]>
-```   
+```
 
 ## [1.4.4] - 2016-12-28
 ### fixed
 - [FIX] Fixed bug with expression logic and rounding:  https://github.com/nickmaccarthy/python-datemath/pull/2
 
 ## [1.4.3] - 2016-03-31
-### added 
+### added
 [NEW] Floats are now supported for days, hours, and seconds units.  Example ```now-2.5d```, ```now-3.2h```. Any other unit other than days, hours, or seconds that is a float will be converted to an int and floored due to the datetime() module not being able to handle them.

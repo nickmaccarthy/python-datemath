@@ -1,0 +1,40 @@
+[semantic_release]
+version_variables = ["datemath/_version.py:__version__"]
+commit_message = "chore(release): {version} [skip ci]"
+commit_parser = "conventional"
+major_on_zero = false
+tag_format = "v{version}"
+
+[semantic_release.branches.main]
+match = "(main|master)"
+prerelease = false
+prerelease_token = "rc"
+
+[semantic_release.changelog]
+mode = "update"
+
+[semantic_release.changelog.default_templates]
+changelog_file = "CHANGELOG.md"
+output_format = "md"
+mask_initial_release = false
+
+[semantic_release.commit_author]
+env = "GIT_COMMIT_AUTHOR"
+default = "github-actions <actions@github.com>"
+
+[semantic_release.commit_parser_options]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf"]
+other_allowed_tags = ["build", "chore", "ci", "docs", "refactor", "style", "test"]
+allowed_tags = ["feat", "fix", "perf", "build", "chore", "ci", "docs", "refactor", "style", "test"]
+default_bump_level = 0
+parse_squash_commits = true
+ignore_merge_commits = true
+
+[semantic_release.remote]
+name = "origin"
+type = "github"
+
+[semantic_release.publish]
+dist_glob_patterns = ["dist/*"]
+upload_to_vcs_release = true
