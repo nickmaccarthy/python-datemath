@@ -12,6 +12,7 @@ prerelease_token = "rc"
 
 [semantic_release.changelog]
 mode = "update"
+insertion_flag = "<!-- version list -->"
 
 [semantic_release.changelog.default_templates]
 changelog_file = "CHANGELOG.md"
